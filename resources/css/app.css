@@ -1,0 +1,538 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* Brand color helpers - Orange variants */
+.bg-brand-orange-light { background-color: #E64A00; }
+.text-brand-orange-light { color: #E64A00; }
+.border-brand-orange-light { border-color: #E64A00; }
+
+.bg-brand-orange-main { background-color: #FF5500; }
+.text-brand-orange-main { color: #FF5500; }
+.border-brand-orange-main { border-color: #FF5500; }
+
+.bg-brand-orange-dark { background-color: #CC3F00; }
+.text-brand-orange-dark { color: #CC3F00; }
+.border-brand-orange-dark { border-color: #CC3F00; }
+
+/* Brand color helpers - Navy variants */
+.bg-brand-navy-light { background-color: #29404D; }
+.text-brand-navy-light { color: #29404D; }
+.border-brand-navy-light { border-color: #29404D; }
+
+.bg-brand-navy-main { background-color: #000A2E; }
+.text-brand-navy-main { color: #000A2E; }
+.border-brand-navy-main { border-color: #000A2E; }
+
+.bg-brand-navy-dark { background-color: #001122; }
+.text-brand-navy-dark { color: #001122; }
+.border-brand-navy-dark { border-color: #001122; }
+
+/* Brand color helpers - White */
+.bg-brand-white { background-color: #FFFFFF; }
+.text-brand-white { color: #FFFFFF; }
+.border-brand-white { border-color: #FFFFFF; }
+
+/* Custom styles */
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+  #contact-cta {
+    background: linear-gradient(to bottom, #000A2E 0%, #000000 100%);
+  }
+  #hero-subpage {
+    background-image: url('/assets/images/subpage-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #000000;
+    position: relative;
+  }
+  
+  #hero-subpage::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+  
+  #hero-subpage .container {
+    position: relative;
+    z-index: 2;
+  }
+/* Animated Button Styles - Brand Colors */
+.animated-button {
+  position: relative;
+  display: inline-flex; /* zmienione z flex na inline-flex */
+  align-items: center;
+  gap: 4px;
+  padding: 16px 36px;
+  border: 4px solid;
+  border-color: transparent;
+  font-size: 16px;
+  background-color: transparent;
+  border-radius: 100px;
+  font-weight: 600;
+  color: #000A2E; /* brand-navy-main */
+  box-shadow: 0 0 0 2px #FF5500; /* brand-orange-main border */
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  text-decoration: none;
+  width: fit-content; /* dodane - przycisk ma naturalną szerokość */
+}
+
+.animated-button svg {
+  position: absolute;
+  width: 24px;
+  fill: #000A2E; /* brand-navy-main */
+  z-index: 9;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button .arr-1 {
+  right: 16px;
+}
+
+.animated-button .arr-2 {
+  left: -25%;
+}
+
+.animated-button .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  background-color: #FF5500; /* brand-orange-main */
+  border-radius: 50%;
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button .text {
+  position: relative;
+  z-index: 1;
+  transform: translateX(-12px);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.animated-button:hover {
+  box-shadow: 0 0 0 12px transparent;
+  color: #FFFFFF; /* white text on hover */
+  border-radius: 12px;
+  background-color: #FF5500; /* brand-orange-main background */
+}
+
+.animated-button:hover .arr-1 {
+  right: -25%;
+}
+
+.animated-button:hover .arr-2 {
+  left: 16px;
+}
+
+.animated-button:hover .text {
+  transform: translateX(12px);
+}
+
+.animated-button:hover svg {
+  fill: #FFFFFF; /* white arrows on hover */
+}
+
+.animated-button:active {
+  scale: 0.95;
+  box-shadow: 0 0 0 4px #E64A00; /* brand-orange-light for active state */
+}
+
+.animated-button:hover .circle {
+  width: 220px;
+  height: 220px;
+  opacity: 1;
+  background-color: #E64A00; /* brand-orange-light for circle expansion */
+}
+
+/* Back to Top Button */
+.back-to-top-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #000A2E; /* brand-navy-main */
+  border: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 0px 4px rgba(255, 85, 0, 0.253); /* brand-orange-main with opacity */
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+}
+
+.back-to-top-button .svgIcon {
+  width: 12px;
+  transition-duration: 0.3s;
+}
+
+.back-to-top-button .svgIcon path {
+  fill: white;
+}
+
+.back-to-top-button:hover {
+  width: 140px;
+  border-radius: 50px;
+  transition-duration: 0.3s;
+  background-color: #FF5500; /* brand-orange-main */
+  align-items: center;
+}
+
+.back-to-top-button:hover .svgIcon {
+  transition-duration: 0.3s;
+  transform: translateY(-200%);
+}
+
+.back-to-top-button::before {
+  position: absolute;
+  bottom: -20px;
+  content: "Back to Top";
+  color: white;
+  font-size: 0px;
+}
+
+.back-to-top-button:hover::before {
+  font-size: 13px;
+  opacity: 1;
+  bottom: unset;
+  transition-duration: 0.3s;
+}
+
+.back-to-top-button.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Container class for consistent spacing */
+.container {
+  max-width: 1280px; /* 7xl equivalent */
+  margin: 0 auto;
+  padding: 0 2rem; /* 8 */
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 3rem; /* 12 */
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 4rem; /* 16 */
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1280px;
+    padding: 0 5rem; /* 20 */
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+    padding: 0 8rem; /* 32 */
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1280px;
+    padding: 0 10rem; /* 40 */
+  }
+}
+
+/* Flowbite components styles will be automatically included */
+
+/* Client logos slider styles */
+#clients-viewport { 
+  overflow: hidden; 
+}
+
+#clients-track { 
+  display: flex; 
+  flex-wrap: nowrap; 
+  will-change: transform; 
+  align-items: center;
+  gap: 4rem; /* 64px odstęp między zestawami */
+}
+
+.client-logo img { 
+  max-height: 5rem; 
+  height: 5rem; 
+  width: auto; 
+  display: block; /* brak „szarpnięcia" od line-height */
+}
+
+/* Services Section */
+.services-section {
+  position: relative;
+  z-index: 2;
+}
+
+/* Services Horizontal Scroll Animation */
+.services-horizontal-container {
+  display: flex;
+  width: 400%; /* 4 panels * 100% */
+  height: 100vh;
+}
+
+.service-panel {
+  width: 25%; /* 100% / 4 panels */
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.panel-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 4rem;
+  z-index: 2;
+}
+
+.service-info {
+  flex: 1;
+  max-width: 600px;
+}
+
+.service-visual {
+  flex: 1;
+  position: relative;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.brand-logo {
+  position: absolute;
+  width: 140px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  padding: 8px;
+}
+
+.brand-logo:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+/* Panel Backgrounds */
+.cybersecurity-panel {
+  background: #1a1a2e;
+}
+
+.consulting-panel {
+  background: #2c1810;
+}
+
+.datacenter-panel {
+  background: #0d1b2a;
+}
+
+.networking-panel {
+  background: #1a1a1a;
+}
+
+/* Brand logo positions */
+.cybersecurity-visual .logo-1 { top: 5%; right: 50%; }
+.cybersecurity-visual .logo-2 { top: 5%; right: 5%; }
+.cybersecurity-visual .logo-3 { top: 40%; left: 50%; transform: translateX(-50%); }
+.cybersecurity-visual .logo-4 { bottom: 2%; right: 50%; }
+.cybersecurity-visual .logo-5 { bottom: 5%; right: 5%; }
+
+.consulting-visual .logo-1 { top: 12%; left: 2%; }
+.consulting-visual .logo-2 { top: 12%; right: 2%; }
+.consulting-visual .logo-3 { bottom: 15%; left: 2%; }
+.consulting-visual .logo-4 { bottom: 15%; right: 2%; }
+
+.datacenter-visual .logo-1 { top: 18%; left: 8%; }
+.datacenter-visual .logo-2 { top: 18%; right: 8%; }
+.datacenter-visual .logo-3 { bottom: 18%; left: 8%; }
+.datacenter-visual .logo-4 { bottom: 18%; right: 8%; }
+
+.networking-visual .logo-1 { top: 12%; left: 2%; }
+.networking-visual .logo-2 { top: 12%; right: 2%; }
+.networking-visual .logo-3 { bottom: 15%; left: 2%; }
+.networking-visual .logo-4 { bottom: 15%; right: 2%; }
+
+
+
+/* Projects Section with Parallax */
+.projects-section {
+  position: relative;
+  background: linear-gradient(to bottom, #1a1a1a 0%, #000A2E 100%);
+  padding: 4rem 0;
+}
+
+.header-section {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 4rem;
+  padding: 0 2rem;
+}
+
+.pSection {
+  position: relative;
+  padding-top: 300px;
+  padding-bottom: 400px;
+  margin-bottom: 200px;
+}
+
+.pSection-left {
+  padding-top: 400px;
+  padding-bottom: 300px;
+}
+
+/* Last project section - reduce bottom padding */
+.pSection:last-child {
+  padding-bottom: 100px;
+  margin-bottom: 50px;
+}
+
+.container {
+  padding: 20px;
+  margin: 0 auto;
+  max-width: 1070px;
+  position: relative;
+  z-index: 1;
+}
+
+.pContent {
+  width: 65%;
+  background-color: rgba(32, 31, 31, 0.9);
+  padding: 50px 70px;
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.pContent-right {
+  margin-left: auto;
+}
+
+.pContent-left {
+  margin-right: auto;
+}
+
+.project-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #FF5500;
+}
+
+.project-description {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.tag {
+  background: rgba(255, 85, 0, 0.2);
+  color: #FF5500;
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  border: 1px solid rgba(255, 85, 0, 0.3);
+  font-weight: 500;
+}
+
+.pImage {
+  width: 60%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  max-height: 900px;
+  border-radius: 20px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+.pImage-right {
+  right: 0;
+}
+
+.pImage-left {
+  left: 0;
+}
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .panel-content {
+    flex-direction: column;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .service-visual {
+    height: 200px;
+    margin-top: 2rem;
+  }
+
+  .brand-logo {
+    width: 100px;
+    height: 80px;
+    padding: 4px;
+  }
+
+  .brand-logo img {
+    max-height: 3rem;
+    max-width: 4rem;
+  }
+
+}
