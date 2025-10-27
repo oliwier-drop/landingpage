@@ -166,13 +166,13 @@ body {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #000A2E; /* brand-navy-main */
+  background-color: #0d1b2a; 
   border: none;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 0px 0px 4px rgba(255, 85, 0, 0.253); /* brand-orange-main with opacity */
+  box-shadow: 0px 0px 0px 4px rgba(255, 255, 255, 0.100); /* brand-orange-main with opacity */
   cursor: pointer;
   transition-duration: 0.3s;
   overflow: hidden;
@@ -535,4 +535,36 @@ body {
     max-width: 4rem;
   }
 
+}
+
+/* Stack hero-about styles */
+.stack-hero-about { 
+  position: relative; 
+}
+
+#hero-pin, #about { 
+  min-height: 100vh; 
+  position: relative; 
+}
+
+#hero-pin { 
+  z-index: 1; 
+}
+
+#about { 
+  z-index: 2; 
+}
+
+#clients {
+  padding-bottom: 10vh;
+}
+
+/* Ensure parents don't interfere with animation */
+#main-content,
+.stack-hero-about {
+  overflow: visible !important;
+}
+
+#main-content *:not(#about):not(#hero-pin) {
+  transform: none;
 }

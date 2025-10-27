@@ -156,31 +156,49 @@ onReady(init)
 
 // Hero pinned; About slides up proportionally to scroll
 function initAbout() {
-  const heroPin = document.getElementById('hero-pin')
-  const aboutSection = document.getElementById('about')
+  const stack = document.querySelector('.stack-hero-about');
+  const about = document.getElementById('about');
   
-  if (heroPin && aboutSection) {
-    // Przy odświeżaniu (zmiana rozmiarów, fontów) przywróć stan początkowy
-    ScrollTrigger.addEventListener('refreshInit', () => {
-      gsap.set(aboutSection, { yPercent: 100 })
-    })
-
-    gsap.set(aboutSection, { yPercent: 100 })
-
-    gsap.timeline({
-      defaults: { ease: 'none' },
-      scrollTrigger: {
-        trigger: heroPin,
-        start: 'top top',
-        end: '+=100%',
-        scrub: true,
-        pin: true,
-        invalidateOnRefresh: true,
-        // markers: true, // włącz na chwilę do debugowania
-      }
-    })
-    .to(aboutSection, { yPercent: 0 }, 0)
+  console.log('initAbout called', { stack, about });
+  
+  if (!stack || !about) {
+    console.error('Missing elements:', { stack, about });
+    return;
   }
+
+  // start: about pod ekranem
+  gsap.set(about, { 
+    yPercent: 100,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    width: '100%'
+  });
+
+  // pinujemy wrapper, nie hero
+  const dur = () => window.innerHeight; // 100% viewportu = 1 ekran
+  const tl = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: {
+      trigger: stack,
+      start: 'top top',
+      end: () => `+=${dur()}`, // pin na 1 ekran przewinięcia
+      scrub: true,
+      pin: true,
+      pinSpacing: true,        // zostaw miejsce niżej (płynne przejście)
+      invalidateOnRefresh: true,
+    }
+  });
+
+  // about wjeżdża z dołu i przykrywa hero
+  tl.to(about, { 
+    yPercent: 0,
+    duration: 1
+  }, 0);
+
+  // po inicjalizacji
+  ScrollTrigger.refresh();
 }
 
 onReady(initAbout)
@@ -198,7 +216,7 @@ function initHeaderBackground() {
         gsap.to(header, {
           backgroundColor: 'rgba(0, 0, 0, 0.5)',
           backdropFilter: 'blur(10px)',
-          duration: 0.3,
+          duration: 0.1,
           ease: 'power2.out'
         })
       },
@@ -206,7 +224,7 @@ function initHeaderBackground() {
         gsap.to(header, {
           backgroundColor: 'transparent',
           backdropFilter: 'none',
-          duration: 0.3,
+          duration: 0.1,
           ease: 'power2.out'
         })
       }
@@ -351,13 +369,21 @@ function initClientsSlider() {
     });
   };
 
-  imagesReady(firstSet).then(build);
+  imagesReady(firstSet).then(() => {
+    build();
+    ScrollTrigger.refresh();
+  });
 
   // re-init po resize (debounce)
   let t;
   window.addEventListener('resize', () => {
     clearTimeout(t);
-    t = setTimeout(() => imagesReady(firstSet).then(build), 150);
+    t = setTimeout(() => {
+      imagesReady(firstSet).then(() => {
+        build();
+        ScrollTrigger.refresh();
+      });
+    }, 150);
   });
 }
 
@@ -367,17 +393,21 @@ onReady(initClientsSlider)
 function initServicesHorizontalScroll() {
   const panels = gsap.utils.toArray(".service-panel");
   
+  // szerokość przewinięcia = (liczba paneli - 1) * 100% szerokości
+  const totalX = -100 * (panels.length - 1);
+  
   // Main horizontal scroll animation
   const scrollTween = gsap.to(panels, {
-    xPercent: -100 * (panels.length - 1),
+    xPercent: totalX,
     ease: "none",
     scrollTrigger: {
       trigger: ".services-section",
       pin: true,
       scrub: 0.1,
-      end: "+=3000",
+      end: () => "+=" + (window.innerWidth * (panels.length - 1)), // dynamicznie
       markers: false,
-      anticipatePin: 1
+      anticipatePin: 1,
+      invalidateOnRefresh: true
     }
   });
 

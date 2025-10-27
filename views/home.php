@@ -1,3 +1,5 @@
+<!-- Hero and About Stack Wrapper -->
+<div class="stack-hero-about">
 <!-- Hero Section -->
 <section id="hero-pin" class="relative h-screen bg-gradient-to-br from-brand-navy-main via-brand-navy-light to-brand-navy-main flex items-center justify-center overflow-hidden z-10">
     <!-- Background Video -->
@@ -64,7 +66,7 @@
         </a>
     </div>
 </section>
-
+</div>
 
 <section id="clients" class="bg-brand-navy-main h-[70vh] flex items-center justify-center relative">
     <div class="container">
