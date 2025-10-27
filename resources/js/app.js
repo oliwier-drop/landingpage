@@ -381,13 +381,164 @@ function initClientsSlider() {
     t = setTimeout(() => {
       imagesReady(firstSet).then(() => {
         build();
-        ScrollTrigger.refresh();
+        setTimeout(() => ScrollTrigger.refresh(), 50);
       });
     }, 150);
   });
 }
 
 onReady(initClientsSlider)
+
+// Universal fade in animation function
+function animateFadeIn(selector, options = {}) {
+  const element = document.querySelector(selector);
+  if (!element) {
+    console.log('Element not found:', selector);
+    return;
+  }
+  
+  console.log('Animating:', selector);
+  
+  const {
+    delay = 0,
+    duration = 1,
+    yStart = 50,
+    ease = "power2.out",
+    startTrigger = "top 85%",
+    trigger: triggerElement,
+    markers: showMarkers = false
+  } = options;
+  
+  // Ustaw początkowy stan z force3D dla lepszej wydajności
+  gsap.set(element, { 
+    opacity: 0, 
+    y: yStart,
+    visibility: "visible",
+    force3D: true
+  });
+  
+  // Animacja z delay
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: triggerElement || element,
+      start: startTrigger,
+      markers: showMarkers,
+      toggleActions: "play none none none",
+      onEnter: () => {
+        console.log('ScrollTrigger activated for:', selector);
+      }
+    }
+  });
+  
+  tl.to(element, {
+    opacity: 1,
+    y: 0,
+    duration: duration,
+    ease: ease,
+    force3D: true,
+    delay: delay
+  });
+}
+
+// Initialize all fade in animations
+function initFadeInAnimations() {
+  console.log('Initializing fade in animations...');
+  
+  // Check CTA position on init
+  const ctaCheck = document.querySelector('.cta-title-animate');
+  if (ctaCheck) {
+    const rect = ctaCheck.getBoundingClientRect();
+    console.log('CTA initial position:', rect.top, 'viewport height:', window.innerHeight);
+  }
+  
+  // Clients section (use IntersectionObserver like CTA)
+  initClientsFadeWithIO();
+  
+  // CTA section handled by IntersectionObserver (robust w.r.t. pins/parallax)
+  initCTAFadeWithIO();
+  
+  // Partners section
+  initPartnersFadeWithIO();
+  
+  console.log('Fade in animations initialized');
+}
+
+// Initialize with small delay to ensure DOM is ready
+onReady(() => {
+  initFadeInAnimations();
+  // Force refresh after a short delay to catch dynamically loaded content
+  setTimeout(() => ScrollTrigger.refresh(), 200);
+})
+
+// IntersectionObserver-based CTA fade (not affected by ScrollTrigger calculations)
+function initCTAFadeWithIO() {
+  const cta = document.getElementById('contact-cta');
+  if (!cta) return;
+  const title = cta.querySelector('.cta-title-animate');
+  const desc  = cta.querySelector('.cta-description-animate');
+  const btn   = cta.querySelector('.cta-button-animate');
+  if (!title || !desc || !btn) return;
+
+  // initial state
+  gsap.set([title, desc, btn], { opacity: 0, y: 50 });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.8 } });
+        tl.to(title, { opacity: 1, y: 0 })
+          .to(desc,  { opacity: 1, y: 0 }, '+=0.1')
+          .to(btn,   { opacity: 1, y: 0 }, '+=0.1');
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.2 }); // 20% CTA widoczne -> animuj
+
+  observer.observe(cta);
+}
+
+// IntersectionObserver-based Clients fade
+function initClientsFadeWithIO() {
+  const container = document.getElementById('clients-viewport')?.closest('#clients');
+  const header = document.querySelector('.clients-header-animate');
+  const slider = document.querySelector('.clients-slider-animate');
+  if (!container || !header || !slider) return;
+
+  gsap.set([header, slider], { opacity: 0, y: 60 });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.9 } });
+        tl.to(header, { opacity: 1, y: 0 })
+          .to(slider, { opacity: 1, y: 0 }, '+=0.1');
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(container);
+}
+
+// IntersectionObserver-based Partners fade
+function initPartnersFadeWithIO() {
+  const section = document.getElementById('partners');
+  const header = document.querySelector('.partners-header-animate');
+  if (!section || !header) return;
+  
+  gsap.set(header, { opacity: 0, y: 60 });
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        gsap.to(header, { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out' });
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.2 });
+  
+  observer.observe(section);
+}
 
 // Services horizontal scroll animation
 function initServicesHorizontalScroll() {

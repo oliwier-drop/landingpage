@@ -1,8 +1,5 @@
 RewriteEngine On
 
-# Debug - sprawdź czy .htaccess działa
-# RewriteRule ^test$ test.php [L]
-
 # Handle Angular and other client-side routing
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
