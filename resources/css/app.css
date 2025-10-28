@@ -30,6 +30,14 @@
 .text-brand-navy-dark { color: #001122; }
 .border-brand-navy-dark { border-color: #001122; }
 
+.bg-brand-navy-secondary { background-color: #1A2B4C; }
+.text-brand-navy-secondary { color: #1A2B4C; }
+.border-brand-navy-secondary { border-color: #1A2B4C; }
+
+.bg-brand-blue-light { background-color: #4A90E2; }
+.text-brand-blue-light { color: #4A90E2; }
+.border-brand-blue-light { border-color: #4A90E2; }
+
 /* Brand color helpers - White */
 .bg-brand-white { background-color: #FFFFFF; }
 .text-brand-white { color: #FFFFFF; }
@@ -37,7 +45,7 @@
 
 /* Custom styles */
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Host Grotesk', sans-serif;
   overflow-x: hidden;
 }
 

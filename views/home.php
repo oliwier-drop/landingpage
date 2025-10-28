@@ -42,7 +42,7 @@
     </div>
 </section>
 
-<section id="about" class="bg-white min-h-[80vh] relative py-12">
+<section id="about" class="bg-white h-[80vh] relative py-12">
     <div class="container px-4 mx-auto">
         <!-- Title at the top -->
         <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-brand-navy-main mb-12 leading-tight text-center">
