@@ -57,7 +57,7 @@
 </section>
 
 <!-- Experience Section -->
-<section class="bg-brand-navy-main py-20">
+<section id="experience-section" class="bg-[#0d1b2a] py-20">
     <div class="container">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8 leading-tight">
@@ -69,15 +69,15 @@
             
             <div class="grid md:grid-cols-3 gap-8 mb-12">
                 <div class="text-center">
-                    <div class="text-4xl font-bold text-brand-orange-main mb-2">14+</div>
+                    <div id="years-counter" class="text-4xl font-bold text-brand-orange-main mb-2">0</div>
                     <div class="text-white text-lg">Lat doświadczenia</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-4xl font-bold text-brand-orange-main mb-2">100+</div>
+                    <div id="projects-counter" class="text-4xl font-bold text-brand-orange-main mb-2">0</div>
                     <div class="text-white text-lg">Zrealizowanych projektów</div>
                 </div>
                 <div class="text-center">
-                    <div class="text-4xl font-bold text-brand-orange-main mb-2">50+</div>
+                    <div id="clients-counter" class="text-4xl font-bold text-brand-orange-main mb-2">0</div>
                     <div class="text-white text-lg">Zadowolonych klientów</div>
                 </div>
             </div>
@@ -109,132 +109,161 @@
                 Nasz zespół
             </h2>
             <p class="text-lg text-gray-300 mb-12 leading-relaxed">
-                Zespół doświadczonych specjalistów IT, którzy każdego dnia pracują nad tym, 
+                Zespół doświadczonych specjalistów, którzy każdego dnia pracują nad tym, 
                 aby Twoja firma mogła rozwijać się w bezpiecznym środowisku technologicznym.
             </p>
             
             <!-- Team Slider -->
             <div class="relative">
-                <div class="overflow-hidden">
-                    <div id="team-slider" class="flex transition-transform duration-500 ease-in-out">
+                <div class="overflow-hidden" style="width: 100%; max-width: 1000px; margin: 0 auto;">
+                    <div id="team-slider" class="flex">
                         <!-- Team Member 1 -->
                         <div class="min-w-[300px] mx-4">
-                            <div class="bg-white rounded-t-lg">
-                                <div class="h-48 flex items-center justify-center">
-                                    <div class="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center">
-                                        <svg class="w-12 h-12 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                                        </svg>
-                                    </div>
+                            <div class="rounded-lg overflow-hidden">
+                                <div class="h-56 bg-gray-300 flex items-center justify-center">
+                                    <img src="/assets/images/people/placeholder.png" alt="Robert Smarzyński" class="w-full h-full object-cover">
                                 </div>
-                            </div>
-                            <div class="bg-brand-navy-main rounded-b-lg p-6 text-center">
-                                <h3 class="text-xl font-bold text-white mb-2">Robert Smarzyński</h3>
-                                <p class="text-brand-blue-light text-sm mb-3">CEO & Founder</p>
-                                <p class="text-white text-sm mb-4">Wizjoner z pasją do technologii i rozwoju biznesu.</p>
-                                <a href="#" class="inline-block">
-                                    <div class="w-8 h-8 bg-brand-blue-light rounded flex items-center justify-center">
-                                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                        </svg>
-                                    </div>
-                                </a>
+                                <div class="bg-[#0d1b2a] p-6 text-center">
+                                    <h3 class="text-xl font-bold text-white mb-2">Robert Smarzyński</h3>
+                                    <p class="text-brand-orange-main text-sm mb-3">CEO & Członek Zarządu</p>
+                                    <p class="text-white text-sm mb-4">Wizjoner z pasją do technologii i rozwoju biznesu.</p>
+                                    <a href="https://www.linkedin.com/in/robert-smarzy%C5%84ski-1865772b1/" target="_blank" class="inline-block">
+                                        <div class="flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-gray-600 hover:text-brand-orange-main transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         
                         <!-- Team Member 2 -->
                         <div class="min-w-[300px] mx-4">
-                            <div class="bg-white rounded-t-lg">
-                                <div class="h-48 flex items-center justify-center">
-                                    <div class="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center">
-                                        <svg class="w-12 h-12 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                                        </svg>
-                                    </div>
+                            <div class="rounded-lg overflow-hidden">
+                                <div class="h-56 bg-gray-300 flex items-center justify-center">
+                                    <img src="/assets/images/people/placeholder.png" alt="Amanda Stodolna" class="w-full h-full object-cover">
                                 </div>
-                            </div>
-                            <div class="bg-brand-navy-main rounded-b-lg p-6 text-center">
-                                <h3 class="text-xl font-bold text-white mb-2">Amanda Stodolna</h3>
-                                <p class="text-brand-blue-light text-sm mb-3">Financier & Accountant</p>
-                                <p class="text-white text-sm mb-4">Ekspert w strategii biznesowej i marketingu.</p>
-                                <a href="#" class="inline-block">
-                                    <div class="w-8 h-8 bg-brand-blue-light rounded flex items-center justify-center">
-                                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                        </svg>
-                                    </div>
-                                </a>
+                                <div class="bg-[#0d1b2a] p-6 text-center">
+                                    <h3 class="text-xl font-bold text-white mb-2">Amanda Stodolna</h3>
+                                    <p class="text-brand-orange-main text-sm mb-3">CFO & Członek Zarządu</p>
+                                    <p class="text-white text-sm mb-4">Ekspert w strategii biznesowej i marketingu.</p>
+                                    <a href="#" target="_blank" class="inline-block">
+                                        <div class="flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-gray-600 hover:text-brand-orange-main transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         
                         <!-- Team Member 3 -->
                         <div class="min-w-[300px] mx-4">
-                            <div class="bg-white rounded-t-lg">
-                                <div class="h-48 flex items-center justify-center">
-                                    <div class="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center">
-                                        <svg class="w-12 h-12 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                                        </svg>
-                                    </div>
+                            <div class="rounded-lg overflow-hidden">
+                                <div class="h-56 bg-gray-300 flex items-center justify-center">
+                                    <img src="/assets/images/people/placeholder.png" alt="Marcin Szymański" class="w-full h-full object-cover">
+                                </div>
+                                <div class="bg-[#0d1b2a] p-6 text-center">
+                                    <h3 class="text-xl font-bold text-white mb-2">Marcin Szymański</h3>
+                                    <p class="text-brand-orange-main text-sm mb-3">Specjalista IT</p>
+                                    <p class="text-white text-sm mb-4">Ekspert w zarządzaniu infrastrukturą IT i rozwiązaniami chmurowymi.</p>
+                                    <a href="https://www.linkedin.com/in/marcin-szyma%C5%84ski-b14110312/" target="_blank" class="inline-block">
+                                        <div class="flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-gray-600 hover:text-brand-orange-main transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                            </svg>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
-                            <div class="bg-brand-navy-main rounded-b-lg p-6 text-center">
-                                <h3 class="text-xl font-bold text-white mb-2">Marcin Szymański</h3>
-                                <p class="text-brand-blue-light text-sm mb-3">IT Specialist</p>
-                                <p class="text-white text-sm mb-4">Ekspert w zarządzaniu infrastrukturą IT i rozwiązaniami chmurowymi.</p>
-                                <a href="#" class="inline-block">
-                                    <div class="w-8 h-8 bg-brand-blue-light rounded flex items-center justify-center">
-                                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                        </svg>
-                                    </div>
-                                </a>
+                        </div>
+
+                        <!-- Team Member 4 -->
+                        <div class="min-w-[300px] mx-4">
+                            <div class="rounded-lg overflow-hidden">
+                                <div class="h-56 bg-gray-300 flex items-center justify-center">
+                                    <img src="/assets/images/people/placeholder.png" alt="Oliwier Drop" class="w-full h-full object-cover">
+                                </div>
+                                <div class="bg-[#0d1b2a] p-6 text-center">
+                                    <h3 class="text-xl font-bold text-white mb-2">Oliwier Drop</h3>
+                                    <p class="text-brand-orange-main text-sm mb-3">Młodszy specjalista IT</p>
+                                    <p class="text-white text-sm mb-4">Specjalista od bezpieczeństwa sieci i infrastruktury.</p>
+                                    <a href="https://www.linkedin.com/in/oliwier-drop/" target="_blank" class="inline-block">
+                                        <div class="flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-gray-600 hover:text-brand-orange-main transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Team Member 5 -->
+                        <div class="min-w-[300px] mx-4">
+                            <div class="rounded-lg overflow-hidden">
+                                <div class="h-56 bg-gray-300 flex items-center justify-center">
+                                    <img src="/assets/images/people/placeholder.png" alt="Norbert Talentowski" class="w-full h-full object-cover">
+                                </div>
+                                <div class="bg-[#0d1b2a] p-6 text-center">
+                                    <h3 class="text-xl font-bold text-white mb-2">Norbert Talentowski</h3>
+                                    <p class="text-brand-orange-main text-sm mb-3">Inżynier projektowy CAD</p>
+                                    <p class="text-white text-sm mb-4">Inżynier projektowy CAD z doświadczeniem w branży IT.</p>
+                                    <a href="https://www.linkedin.com/in/norbert-talentowski/" target="_blank" class="inline-block">
+                                        <div class="flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-gray-600 hover:text-brand-orange-main transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Team Member 6 -->
+                         <div class="min-w-[300px] mx-4">
+                            <div class="rounded-lg overflow-hidden">
+                                <div class="h-56 bg-gray-300 flex items-center justify-center">
+                                    <img src="/assets/images/people/placeholder.png" alt="Norbert Talentowski" class="w-full h-full object-cover">
+                                </div>
+                                <div class="bg-[#0d1b2a] p-6 text-center">
+                                    <h3 class="text-xl font-bold text-white mb-2">Krystian Chijnacki</h3>
+                                    <p class="text-brand-orange-main text-sm mb-3">Młodszy specjalista IT</p>
+                                    <p class="text-white text-sm mb-4">Programista z doświadczeniem w branży IT i projektowaniu aplikacji.</p>
+                                    <a href="https://www.linkedin.com/in/krystian-chijnacki/" target="_blank" class="inline-block">
+                                        <div class="flex items-center justify-center">
+                                            <svg class="w-4 h-4 text-gray-600 hover:text-brand-orange-main transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- Duplicate cards for infinite scroll effect -->
-                        <!-- Team Member 1 (Duplicate) -->
-                        <div class="min-w-[300px] mx-4">
-                            <div class="bg-white rounded-t-lg">
-                                <div class="h-48 flex items-center justify-center">
-                                    <div class="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center">
-                                        <svg class="w-12 h-12 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="bg-brand-navy-main rounded-b-lg p-6 text-center">
-                                <h3 class="text-xl font-bold text-white mb-2">Robert Smarzyński</h3>
-                                <p class="text-brand-blue-light text-sm mb-3">CEO & Founder</p>
-                                <p class="text-white text-sm mb-4">Wizjoner z pasją do technologii i rozwoju biznesu.</p>
-                                <a href="#" class="inline-block">
-                                    <div class="w-8 h-8 bg-brand-blue-light rounded flex items-center justify-center">
-                                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                        </svg>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 
                 <!-- Navigation Controls -->
                 <div class="flex justify-center items-center mt-8 space-x-4">
-                    <button id="prev-btn" class="w-10 h-10 bg-brand-blue-light rounded-full flex items-center justify-center hover:bg-brand-blue-light/80 transition-colors">
+                    <button id="prev-btn" class="w-10 h-10 bg-brand-orange-main rounded-full flex items-center justify-center hover:bg-brand-orange-light transition-colors">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                     </button>
                     
                     <div class="flex space-x-2">
-                        <div class="w-2 h-2 bg-brand-blue-light rounded-full"></div>
                         <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
                         <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
-                </div>
+                        <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
+                        <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
+                        <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
+                        <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
+                    </div>
                 
-                    <button id="next-btn" class="w-10 h-10 bg-brand-blue-light rounded-full flex items-center justify-center hover:bg-brand-blue-light/80 transition-colors">
+                    <button id="next-btn" class="w-10 h-10 bg-brand-orange-main rounded-full flex items-center justify-center hover:bg-brand-orange-light transition-colors">
                         <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                         </svg>
@@ -245,47 +274,3 @@
     </div>
 </section>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const slider = document.getElementById('team-slider');
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const dots = document.querySelectorAll('.flex.space-x-2 > div');
-    
-    let currentIndex = 0;
-    const cardWidth = 300 + 32; // 300px card + 32px margin
-    const totalCards = 3; // Original cards count
-    
-    function updateSlider() {
-        const translateX = -currentIndex * cardWidth;
-        slider.style.transform = `translateX(${translateX}px)`;
-        
-        // Update dots
-        dots.forEach((dot, index) => {
-            dot.classList.remove('bg-brand-blue-light');
-            dot.classList.add('bg-gray-600');
-        });
-        dots[currentIndex].classList.remove('bg-gray-600');
-        dots[currentIndex].classList.add('bg-brand-blue-light');
-    }
-    
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % totalCards;
-        updateSlider();
-    }
-    
-    function prevSlide() {
-        currentIndex = (currentIndex - 1 + totalCards) % totalCards;
-        updateSlider();
-    }
-    
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
-    
-    // Auto-play
-    setInterval(nextSlide, 5000);
-    
-    // Initialize
-    updateSlider();
-});
-</script>

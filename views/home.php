@@ -90,7 +90,7 @@
                     
                     <div class="flex items-center divide-x-2 divide-gray-300">
                         <cite class="pe-4 font-semibold text-brand-navy-main">Robert Smarzyński</cite>
-                        <cite class="ps-4 text-sm text-gray-600">Prezes zarządu Corpotech </cite>
+                        <cite class="ps-4 text-sm text-gray-600">CEO & Członek Zarządu</cite>
                     </div>
                 </figcaption>
             </figure>
@@ -99,14 +99,14 @@
 </section>
 </div>
 
-<section id="clients" class="bg-brand-navy-main h-[70vh] flex items-center justify-center relative">
+<section id="clients" class="bg-[#0d1b2a] h-[60vh] flex items-center justify-center relative">
     <div class="container">
         <div class="text-center mb-16 clients-header-animate">
             <h2 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-8 leading-tight">
                 Nasi klienci
             </h2>
             <p class="text-lg text-gray-300 max-w-3xl mx-auto">
-                Zaufali nam liderzy branży, którzy doceniają nasze rozwiązania IT i cyberbezpieczeństwo
+                Zaufali nam liderzy branży, którzy doceniają nasze wsparcie
             </p>
         </div>
         
@@ -148,7 +148,7 @@
             <div class="bg-[#0d1b2a] rounded-lg shadow-sm overflow-hidden border border-gray-700 group">
                 <a href="https://www.grupablue.pl/" target="_blank" class="block">
                     <div class="h-48 bg-gray-800 flex items-center justify-center p-8">
-                        <img src="/assets/images/clients/blue.png" alt="Blue Energy Logo" class="max-h-32 max-w-full object-contain group-hover:scale-110 transition-transform duration-300" />
+                        <img src="/assets/images/clients/blue.png" alt="Blue Energy Logo" class="max-h-32 max-w-full object-contain hover:scale-110 transition-transform duration-300" />
                     </div>
                 </a>
                 <div class="p-5">
@@ -156,7 +156,7 @@
                     <p class="mb-3 font-normal text-gray-300">
                         Partner w zakresie rozwiązań infrastruktury IT
                     </p>
-                    <a href="https://www.grupablue.pl/" target="_blank" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-colors">
+                    <a href="https://www.grupablue.pl/" target="_blank" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-brand-orange-main rounded-lg hover:bg-brand-orange-light focus:ring-4 focus:outline-none focus:ring-brand-orange transition-colors">
                         Odwiedź stronę
                         <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
@@ -169,7 +169,7 @@
             <div class="bg-[#0d1b2a] rounded-lg shadow-sm overflow-hidden border border-gray-700 group">
                 <a href="https://www.komputronikbiznes.pl/" target="_blank" class="block">
                     <div class="h-48 bg-gray-800 flex items-center justify-center p-8">
-                        <img src="/assets/images/clients/komputronik.png" alt="Komputronik Biznes Logo" class="max-h-32 max-w-full object-contain group-hover:scale-110 transition-transform duration-300" />
+                        <img src="/assets/images/clients/komputronik.png" alt="Komputronik Biznes Logo" class="max-h-32 max-w-full object-contain hover:scale-110 transition-transform duration-300" />
                     </div>
                 </a>
                 <div class="p-5">
@@ -177,7 +177,7 @@
                     <p class="mb-3 font-normal text-gray-300">
                         Partner w obszarze sprzętu IT dla biznesu
                     </p>
-                    <a href="https://www.komputronikbiznes.pl/" target="_blank" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-colors">
+                    <a href="https://www.komputronikbiznes.pl/" target="_blank" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-brand-orange-main rounded-lg hover:bg-brand-orange-light focus:ring-4 focus:outline-none focus:ring-brand-orange transition-colors">
                         Odwiedź stronę
                         <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
@@ -190,7 +190,7 @@
             <div class="bg-[#0d1b2a] rounded-lg shadow-sm overflow-hidden border border-gray-700 group">
                 <a href="https://komserwis.com/" target="_blank" class="block">
                     <div class="h-48 bg-gray-800 flex items-center justify-center p-8">
-                        <img src="/assets/images/clients/komserwis.png" alt="Komserwis Logo" class="max-h-32 max-w-full object-contain group-hover:scale-110 transition-transform duration-300" />
+                        <img src="/assets/images/clients/komserwis.png" alt="Komserwis Logo" class="max-h-32 max-w-full object-contain hover:scale-110 transition-transform duration-300" />
                     </div>
                 </a>
                 <div class="p-5">
@@ -198,7 +198,7 @@
                     <p class="mb-3 font-normal text-gray-300">
                         Partner w obszarze sprzętu biurowego i drukarek
                     </p>
-                    <a href="https://komserwis.com/" target="_blank" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-colors">
+                    <a href="https://komserwis.com/" target="_blank" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-brand-orange-main rounded-lg hover:bg-brand-orange-light focus:ring-4 focus:outline-none focus:ring-brand-orange transition-colors">
                         Odwiedź stronę
                         <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
@@ -373,8 +373,7 @@
             <div class="pContent pContent-right">
                 <h3 class="project-title">System zarządania zamówieniami dla Agmar</h3>
                 <p class="project-description">
-                    Kompleksowe wdrożenie systemu zarządania zamówieniami dla Agmar,
-                    z systemami zarządania zamówieniami oraz wdrożeniem systemów zarządania zamówieniami.
+                    Kompleksowe przygotowanie i wdrożenie systemu zarządania zamówieniami i produkcji dla Agmar.
                 </p>
                 <div class="project-tags">
                     <span class="tag">MySQL</span>
@@ -392,7 +391,7 @@
                 <h3 class="project-title">Nowoczesna serwerownia dla Hellermann Tyton</h3>
                 <p class="project-description">
                     Projekt i wdrożenie kompletnej infrastruktury serwerowej dla Hellermann Tyton,
-                    z systemami chłodzenia, zasilania awaryjnego i monitoringiem, wdrożeniem systemów chłodzenia, zasilania awaryjnego i monitoringiem.
+                    z systemami chłodzenia, zasilania awaryjnego i monitoringiem.
                 </p>
                 <div class="project-tags">
                     <span class="tag">Dell</span>
@@ -409,8 +408,7 @@
             <div class="pContent pContent-right">
                 <h3 class="project-title">Migracja do chmury hybrydowej dla Watis</h3>
                 <p class="project-description">
-                    Przeprowadzenie kompleksowej migracji systemów IT do środowiska chmurowego z wykorzystaniem rozwiązania Azure,
-                    z systemami zarządania zamówieniami oraz nową bazą danych.
+                    Przeprowadzenie kompleksowej migracji systemów IT do chmurowego środowiska hybrydowego z wykorzystaniem rozwiązania Azure, wraz z nową bazą danych.
                 </p>
                 <div class="project-tags">
                     <span class="tag">Azure</span>

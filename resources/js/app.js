@@ -1,5 +1,4 @@
 // Test entry point
-console.log('APP_ENTRY', import.meta.env.MODE)
 window.__VITE_APP_MARK__ = 'LOADED'
 
 // Import Alpine.js
@@ -159,10 +158,7 @@ function initAbout() {
   const stack = document.querySelector('.stack-hero-about');
   const about = document.getElementById('about');
   
-  console.log('initAbout called', { stack, about });
-  
   if (!stack || !about) {
-    console.error('Missing elements:', { stack, about });
     return;
   }
 
@@ -173,8 +169,12 @@ function initAbout() {
     top: 0,
     left: 0,
     right: 0,
-    width: '100%'
+    width: '100%',
+    height: '80vh'  // Explicit wysokość
   });
+  
+  // Ustaw wysokość całego stack
+  gsap.set(stack, { height: '180vh' }); // hero (100vh) + about (80vh)
 
   // pinujemy wrapper, nie hero
   const dur = () => window.innerHeight; // 100% viewportu = 1 ekran
@@ -186,7 +186,7 @@ function initAbout() {
       end: () => `+=${dur()}`, // pin na 1 ekran przewinięcia
       scrub: true,
       pin: true,
-      pinSpacing: true,        // zostaw miejsce niżej (płynne przejście)
+      pinSpacing: false,        // wyłącz dodatkową przestrzeń
       invalidateOnRefresh: true,
     }
   });
@@ -194,7 +194,10 @@ function initAbout() {
   // about wjeżdża z dołu i przykrywa hero
   tl.to(about, { 
     yPercent: 0,
-    duration: 1
+    duration: 1,  // 100% viewportu - cała strona zasłania hero
+    onComplete: () => {
+      console.log('About animation completed, yPercent:', about.style.transform);
+    }
   }, 0);
 
   // po inicjalizacji
@@ -208,27 +211,60 @@ function initHeaderBackground() {
   const header = document.getElementById('main-header')
   
   if (header) {
-    ScrollTrigger.create({
-      trigger: '#hero-pin',
-      start: 'bottom top',
-      end: 'bottom top',
-      onEnter: () => {
-        gsap.to(header, {
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          backdropFilter: 'blur(10px)',
-          duration: 0.1,
-          ease: 'power2.out'
-        })
-      },
-      onLeaveBack: () => {
-        gsap.to(header, {
-          backgroundColor: 'transparent',
-          backdropFilter: 'none',
-          duration: 0.1,
-          ease: 'power2.out'
+    // Check if we're on homepage (has hero-pin) or subpage
+    const heroPin = document.getElementById('hero-pin')
+    const heroSubpage = document.getElementById('hero-subpage')
+    
+    if (heroPin) {
+      // Homepage - use stack-hero-about as trigger
+      const stack = document.querySelector('.stack-hero-about')
+      if (stack) {
+        ScrollTrigger.create({
+          trigger: stack,
+          start: 'top top',
+          end: 'bottom top',
+          onEnter: () => {
+            gsap.to(header, {
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(10px)',
+              duration: 0.1,
+              ease: 'power2.out'
+            })
+          },
+          onLeaveBack: () => {
+            gsap.to(header, {
+              backgroundColor: 'transparent',
+              backdropFilter: 'none',
+              duration: 0.1,
+              ease: 'power2.out'
+            })
+          }
         })
       }
-    })
+    } else if (heroSubpage) {
+      // Subpage - use hero-subpage as trigger
+      ScrollTrigger.create({
+        trigger: heroSubpage,
+        start: 'bottom top',
+        end: 'bottom top',
+        onEnter: () => {
+          gsap.to(header, {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backdropFilter: 'blur(10px)',
+            duration: 0.1,
+            ease: 'power2.out'
+          })
+        },
+        onLeaveBack: () => {
+          gsap.to(header, {
+            backgroundColor: 'transparent',
+            backdropFilter: 'none',
+            duration: 0.1,
+            ease: 'power2.out'
+          })
+        }
+      })
+    }
   }
 }
 
@@ -294,8 +330,6 @@ function initSmoothScroll() {
       const targetId = href.substring(1) // remove # from href
       const targetElement = document.getElementById(targetId)
       
-      console.log('Link clicked:', href, 'Target ID:', targetId, 'Element found:', targetElement)
-      
       if (targetElement) {
         gsap.to(window, {
           duration: 1.2,
@@ -306,8 +340,6 @@ function initSmoothScroll() {
           },
           ease: 'power2.inOut'
         })
-      } else {
-        console.warn('Target element not found:', targetId)
       }
     }
   })
@@ -393,11 +425,8 @@ onReady(initClientsSlider)
 function animateFadeIn(selector, options = {}) {
   const element = document.querySelector(selector);
   if (!element) {
-    console.log('Element not found:', selector);
     return;
   }
-  
-  console.log('Animating:', selector);
   
   const {
     delay = 0,
@@ -423,10 +452,7 @@ function animateFadeIn(selector, options = {}) {
       trigger: triggerElement || element,
       start: startTrigger,
       markers: showMarkers,
-      toggleActions: "play none none none",
-      onEnter: () => {
-        console.log('ScrollTrigger activated for:', selector);
-      }
+      toggleActions: "play none none none"
     }
   });
   
@@ -442,15 +468,6 @@ function animateFadeIn(selector, options = {}) {
 
 // Initialize all fade in animations
 function initFadeInAnimations() {
-  console.log('Initializing fade in animations...');
-  
-  // Check CTA position on init
-  const ctaCheck = document.querySelector('.cta-title-animate');
-  if (ctaCheck) {
-    const rect = ctaCheck.getBoundingClientRect();
-    console.log('CTA initial position:', rect.top, 'viewport height:', window.innerHeight);
-  }
-  
   // Clients section (use IntersectionObserver like CTA)
   initClientsFadeWithIO();
   
@@ -459,8 +476,6 @@ function initFadeInAnimations() {
   
   // Partners section
   initPartnersFadeWithIO();
-  
-  console.log('Fade in animations initialized');
 }
 
 // Initialize with small delay to ensure DOM is ready
@@ -709,3 +724,447 @@ function initSubpageHeaderBackground() {
 }
 
 onReady(initSubpageHeaderBackground)
+
+// About page specific functionality
+function initAboutPage() {
+  // Only run on about page
+  if (!document.getElementById('experience-section')) return;
+  
+  // Counter animation function
+  function animateCounter(element, targetValue, suffix = '') {
+    gsap.to(element, {
+      innerHTML: targetValue,
+      duration: 2,
+      ease: "power2.out",
+      snap: { innerHTML: 1 },
+      onUpdate: function() {
+        element.innerHTML = Math.ceil(this.targets()[0].innerHTML) + suffix;
+      }
+    });
+  }
+  
+  // Values section
+  const valuesCards = document.querySelectorAll('#values .bg-gray-100');
+  if (valuesCards.length) {
+    gsap.fromTo(valuesCards, 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: "#values",
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+  }
+  
+  // Experience section title and description
+  const experienceTitle = document.querySelector('#experience-section h2');
+  const experienceDesc = document.querySelector('#experience-section p');
+  if (experienceTitle && experienceDesc) {
+    gsap.fromTo([experienceTitle, experienceDesc], 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: "#experience-section",
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+  }
+  
+  // Counters animation (only when section is visible)
+  ScrollTrigger.create({
+    trigger: "#experience-section",
+    start: "top 80%",
+    onEnter: function() {
+      animateCounter(document.getElementById('years-counter'), 14, '+');
+      animateCounter(document.getElementById('projects-counter'), 100, '+');
+      animateCounter(document.getElementById('clients-counter'), 50, '+');
+    }
+  });
+  
+  // Certificates
+  const certificates = document.querySelectorAll('#experience-section .bg-white\\/10');
+  if (certificates.length) {
+    gsap.fromTo(certificates, 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: certificates[0],
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+  }
+  
+  // Team section title and description
+  const teamTitle = document.querySelector('section:has(#team-slider) h2');
+  const teamDesc = document.querySelector('section:has(#team-slider) p');
+  if (teamTitle && teamDesc) {
+    gsap.fromTo([teamTitle, teamDesc], 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: teamTitle,
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+  }
+  
+  // Team slider functionality
+  const slider = document.getElementById('team-slider');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const dots = document.querySelectorAll('.flex.space-x-2 > div');
+  
+  if (!slider || !prevBtn || !nextBtn) return;
+  
+  // Team cards fade in animation with onComplete callback
+  const originalTeamCards = document.querySelectorAll('#team-slider > div');
+  if (originalTeamCards.length) {
+    const cardsToAnimate = Array.from(originalTeamCards);
+    
+    // Timeline for team cards animation
+    const teamCardsTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#team-slider",
+        start: "top 70%",
+        toggleActions: "play none none none"
+      },
+      onComplete: function() {
+        // Clone all cards to create infinite loop
+        const originalCards = Array.from(slider.children);
+        originalCards.forEach(card => {
+          const clone = card.cloneNode(true);
+          gsap.set(clone, { opacity: 1, y: 0 });
+          slider.appendChild(clone);
+        });
+        
+        // Initialize slider functionality immediately
+        initSliderFunctionality();
+      }
+    });
+    
+    teamCardsTimeline.fromTo(cardsToAnimate, 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        ease: "power2.out",
+        stagger: 0.05
+      }
+    );
+    
+    // Start slider initialization after a short delay (faster than waiting for full animation)
+    setTimeout(() => {
+      if (!slider.querySelector('.min-w-\\[300px\\]').nextElementSibling) {
+        // Clone all cards to create infinite loop
+        const originalCards = Array.from(slider.children);
+        originalCards.forEach(card => {
+          const clone = card.cloneNode(true);
+          gsap.set(clone, { opacity: 1, y: 0 });
+          slider.appendChild(clone);
+        });
+        
+        // Initialize slider functionality
+        initSliderFunctionality();
+      }
+    }, 100); // Start after 200ms instead of waiting for full animation
+  }
+  
+  // Navigation controls
+  const navControls = document.querySelector('.flex.justify-center.items-center.mt-8');
+  if (navControls) {
+    gsap.fromTo(navControls, 
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: navControls,
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+  }
+  
+  // Slider functionality
+  function initSliderFunctionality() {
+    let currentIndex = 0;
+    const totalCards = 6;
+    const cardsPerView = 3;
+    const cardWidth = 300 + 32;
+    
+    gsap.set(slider, { x: 0 });
+    
+    function updateSlider() {
+      const translateX = -currentIndex * cardWidth;
+      gsap.to(slider, {
+        x: translateX,
+        duration: 0.5,
+        ease: "power2.out"
+      });
+      
+      const actualCardIndex = currentIndex % totalCards;
+      dots.forEach((dot, index) => {
+        dot.classList.remove('bg-brand-orange-main');
+        dot.classList.add('bg-gray-600');
+      });
+      dots[actualCardIndex].classList.remove('bg-gray-600');
+      dots[actualCardIndex].classList.add('bg-brand-orange-main');
+    }
+    
+    function nextSlide() {
+      currentIndex++;
+      
+      if (currentIndex >= totalCards) {
+        setTimeout(() => {
+          gsap.set(slider, { x: 0 });
+          currentIndex = 0;
+        }, 500);
+      }
+      
+      updateSlider();
+    }
+    
+    function prevSlide() {
+      currentIndex--;
+      
+      if (currentIndex < 0) {
+        currentIndex = totalCards - 1;
+        const endPosition = -currentIndex * cardWidth;
+        gsap.set(slider, { x: endPosition });
+      }
+      
+      updateSlider();
+    }
+    
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => {
+        currentIndex = index;
+        updateSlider();
+      });
+    });
+    
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    
+    setInterval(nextSlide, 5000);
+    
+    updateSlider();
+  }
+}
+
+onReady(initAboutPage)
+
+// Contact page specific functionality
+function initContactPage() {
+  // Only run on contact page
+  if (!document.getElementById('contact-form')) return;
+  
+  // Project info section
+  const projectInfoTitle = document.querySelector('#project-info h2');
+  const projectInfoDesc = document.querySelectorAll('#project-info p');
+  if (projectInfoTitle && projectInfoDesc.length) {
+    gsap.fromTo([projectInfoTitle, ...projectInfoDesc], 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: "#project-info",
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+  }
+  
+  // Contact info section
+  const contactInfoTitle = document.querySelector('#contact-info h2');
+  const contactCards = document.querySelectorAll('#contact-info .bg-gray-50');
+  if (contactInfoTitle && contactCards.length) {
+    gsap.fromTo(contactInfoTitle, 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#contact-info",
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+    
+    // Animate each card with its internal elements
+    contactCards.forEach((card, index) => {
+      const cardElements = card.querySelectorAll('div, h3, p, svg');
+      gsap.fromTo(cardElements, 
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    });
+  }
+  
+  // Management team section
+  const managementTitle = document.querySelector('#contact-info h3');
+  const managementDesc = document.querySelector('#contact-info p');
+  const managementCards = document.querySelectorAll('#contact-info .grid.md\\:grid-cols-2 .bg-gray-50');
+  if (managementTitle && managementDesc && managementCards.length) {
+    gsap.fromTo([managementTitle, managementDesc], 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: managementTitle,
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+    
+    // Animate each management card with its internal elements
+    managementCards.forEach((card, index) => {
+      const cardElements = card.querySelectorAll('div, h4, p, svg');
+      gsap.fromTo(cardElements, 
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: 0.1,
+          scrollTrigger: {
+            trigger: card,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        }
+      );
+    });
+  }
+  
+  // Contact form section
+  const formTitle = document.querySelector('#contact-form h2');
+  const formDesc = document.querySelector('#contact-form p');
+  const form = document.querySelector('#contact-form form');
+  if (formTitle && formDesc && form) {
+    gsap.fromTo([formTitle, formDesc], 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: "#contact-form",
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+    
+    gsap.fromTo(form, 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: form,
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+  }
+  
+  // Location section
+  const locationTitle = document.querySelector('#location h2');
+  const locationMap = document.querySelector('#location iframe');
+  if (locationTitle && locationMap) {
+    gsap.fromTo(locationTitle, 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#location",
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+    
+    gsap.fromTo(locationMap, 
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: locationMap,
+          start: "top 80%",
+          toggleActions: "play none none none"
+        }
+      }
+    );
+  }
+}
+
+onReady(initContactPage)

@@ -60,13 +60,13 @@
                                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-brand-navy-main mb-4">Email biurowy</h3>
+                        <h3 class="text-2xl font-bold text-brand-navy-main mb-4">Kontakt biura</h3>
                         <p class="text-brand-navy-main mb-4">   
-                            <strong>Email biurowy:</strong><br>
+                            <strong>Email:</strong><br>
                             <a href="mailto:biuro@corpotech.com.pl" class="text-brand-orange-main hover:text-brand-orange-dark transition-colors">
                                 biuro@corpotech.com.pl
                             </a><br>
-                            <strong>Telefon biurowy:</strong><br>
+                            <strong>Telefon:</strong><br>
                             <a href="tel:+48573296093" class="text-brand-orange-main hover:text-brand-orange-dark transition-colors">
                                 +48 573 296 093
                             </a>
@@ -94,7 +94,7 @@
                         </svg>
                     </div>
                     <h4 class="text-xl font-bold text-brand-navy-main mb-2">Robert Smarzyński</h4>
-                    <p class="text-brand-orange-main font-semibold mb-3">CEO & Founder</p>
+                    <p class="text-brand-orange-main font-semibold mb-3">CEO & Członek Zarządu</p>
                     <p class="text-brand-navy-main mb-4">
                         <strong>Email:</strong><br>
                         <a href="mailto:robert@corpotech.com.pl" class="text-brand-orange-main hover:text-brand-orange-dark transition-colors">
@@ -119,7 +119,7 @@
                         </svg>
                     </div>
                     <h4 class="text-xl font-bold text-brand-navy-main mb-2">Amanda Stodolna</h4>
-                    <p class="text-brand-orange-main font-semibold mb-3">CFO & Financier</p>
+                    <p class="text-brand-orange-main font-semibold mb-3">CFO & Członkini Zarządu</p>
                     <p class="text-brand-navy-main mb-4">
                         <strong>Email:</strong><br>
                         <a href="mailto:amanda@corpotech.com.pl" class="text-brand-orange-main hover:text-brand-orange-dark transition-colors">
@@ -140,7 +140,7 @@
     </div>
 </section>
 
-<section id="contact-form" class="bg-[#1a1a2e]">
+<section id="contact-form" class="bg-[#0d1b2a]">
   <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
       <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-white">Formularz kontaktowy</h2>
       <p class="mb-8 lg:mb-16 font-light text-center text-gray-300 sm:text-xl">Masz pytania? Potrzebujesz szczegółów dotyczących naszych usług? Napisz do nas.</p>

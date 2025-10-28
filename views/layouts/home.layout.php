@@ -144,7 +144,6 @@
                     <div class="space-y-2 text-gray-300 text-sm">
                         <p><span class="text-gray-400">Email:</span> biuro@corpotech.com.pl</p>
                         <p><span class="text-gray-400">Telefon:</span> +(48) 573 296 093</p>
-                        <p><span class="text-gray-400">Godziny otwarcia:</span><br>Pn-Pt: 8:00 - 16:00</p>
                     </div>
                     <div class="pt-2">
                         <a href="https://linkedin.com/company/corpotech-group/" target="_blank" class="inline-flex items-center gap-2 text-gray-400 hover:text-brand-orange-main transition-colors duration-300 text-sm">
