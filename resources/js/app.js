@@ -170,7 +170,7 @@ function initAbout() {
     left: 0,
     right: 0,
     width: '100%',
-    height: '80vh'  // Explicit wysokość
+    height: '90vh'  // Explicit wysokość
   });
   
   // Ustaw wysokość całego stack
@@ -841,13 +841,38 @@ function initAboutPage() {
   const prevBtn = document.getElementById('prev-btn');
   const nextBtn = document.getElementById('next-btn');
   const dots = document.querySelectorAll('.flex.space-x-2 > div');
+  const navControls = document.querySelector('.flex.justify-center.items-center.mt-8');
   
   if (!slider || !prevBtn || !nextBtn) return;
+  
+  // Count original cards before cloning (only cards with min-w-[300px] class)
+  const originalCardsCount = slider.querySelectorAll('.min-w-\\[300px\\]').length;
+  
+  // Generate dots dynamically based on number of cards
+  const dotsContainer = document.querySelector('.flex.space-x-2');
+  if (dotsContainer && originalCardsCount > dots.length) {
+    // Remove existing dots
+    dotsContainer.innerHTML = '';
+    // Generate new dots based on actual card count
+    for (let i = 0; i < originalCardsCount; i++) {
+      const dot = document.createElement('div');
+      dot.className = i === 0 ? 'w-2 h-2 bg-brand-orange-main rounded-full' : 'w-2 h-2 bg-gray-600 rounded-full';
+      dotsContainer.appendChild(dot);
+    }
+  }
+  
+  // Re-select dots after generating them
+  const updatedDots = document.querySelectorAll('.flex.space-x-2 > div');
   
   // Team cards fade in animation with onComplete callback
   const originalTeamCards = document.querySelectorAll('#team-slider > div');
   if (originalTeamCards.length) {
     const cardsToAnimate = Array.from(originalTeamCards);
+    
+    // Set initial state for navigation controls
+    if (navControls) {
+      gsap.set(navControls, { opacity: 0, y: 30 });
+    }
     
     // Timeline for team cards animation
     const teamCardsTimeline = gsap.timeline({
@@ -881,6 +906,16 @@ function initAboutPage() {
       }
     );
     
+    // Add navigation controls animation to the same timeline
+    if (navControls) {
+      teamCardsTimeline.to(navControls, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out"
+      }, "-=0.3"); // Start slightly before cards finish (overlap)
+    }
+    
     // Start slider initialization after a short delay (faster than waiting for full animation)
     setTimeout(() => {
       if (!slider.querySelector('.min-w-\\[300px\\]').nextElementSibling) {
@@ -898,71 +933,103 @@ function initAboutPage() {
     }, 100); // Start after 200ms instead of waiting for full animation
   }
   
-  // Navigation controls
-  const navControls = document.querySelector('.flex.justify-center.items-center.mt-8');
-  if (navControls) {
-    gsap.fromTo(navControls, 
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: navControls,
-          start: "top 80%",
-          toggleActions: "play none none none"
-        }
-      }
-    );
-  }
-  
   // Slider functionality
   function initSliderFunctionality() {
     let currentIndex = 0;
-    const totalCards = 6;
+    // Use the original cards count (before cloning)
+    const totalCards = originalCardsCount;
+    // Re-select dots in case they were regenerated
+    const dots = document.querySelectorAll('.flex.space-x-2 > div');
     const cardsPerView = 3;
     const cardWidth = 300 + 32;
+    let isAnimating = false;
+    let currentAnimation = null;
     
     gsap.set(slider, { x: 0 });
     
-    function updateSlider() {
-      const translateX = -currentIndex * cardWidth;
-      gsap.to(slider, {
-        x: translateX,
-        duration: 0.5,
-        ease: "power2.out"
-      });
+    function updateSlider(isInstant = false) {
+      // Normalize currentIndex to handle loops
+      if (currentIndex >= totalCards) {
+        // We're on clones - adjust position
+        const cloneOffset = currentIndex - totalCards;
+        const translateX = -(totalCards * cardWidth + cloneOffset * cardWidth);
+        
+        if (isInstant) {
+          gsap.set(slider, { x: translateX });
+          // Reset to equivalent original position
+          currentIndex = cloneOffset;
+          gsap.set(slider, { x: -currentIndex * cardWidth });
+        } else {
+          isAnimating = true;
+          currentAnimation = gsap.to(slider, {
+            x: translateX,
+            duration: 0.3,
+            ease: "power2.out",
+            onComplete: function() {
+              // After reaching clone, instantly jump to equivalent original position (invisible to user)
+              const originalIndex = cloneOffset;
+              gsap.set(slider, { x: -originalIndex * cardWidth });
+              currentIndex = originalIndex;
+              isAnimating = false;
+              currentAnimation = null;
+              
+              // Update dots after reset
+              dots.forEach((dot, index) => {
+                dot.classList.remove('bg-brand-orange-main');
+                dot.classList.add('bg-gray-600');
+              });
+              if (dots[originalIndex]) {
+                dots[originalIndex].classList.remove('bg-gray-600');
+                dots[originalIndex].classList.add('bg-brand-orange-main');
+              }
+            }
+          });
+        }
+      } else {
+        const translateX = -currentIndex * cardWidth;
+        
+        if (isInstant) {
+          gsap.set(slider, { x: translateX });
+        } else {
+          isAnimating = true;
+          currentAnimation = gsap.to(slider, {
+            x: translateX,
+            duration: 0.3,
+            ease: "power2.out",
+            onComplete: function() {
+              isAnimating = false;
+              currentAnimation = null;
+            }
+          });
+        }
+      }
       
       const actualCardIndex = currentIndex % totalCards;
       dots.forEach((dot, index) => {
         dot.classList.remove('bg-brand-orange-main');
         dot.classList.add('bg-gray-600');
       });
-      dots[actualCardIndex].classList.remove('bg-gray-600');
-      dots[actualCardIndex].classList.add('bg-brand-orange-main');
+      if (dots[actualCardIndex]) {
+        dots[actualCardIndex].classList.remove('bg-gray-600');
+        dots[actualCardIndex].classList.add('bg-brand-orange-main');
+      }
     }
     
     function nextSlide() {
+      if (isAnimating) return; // Prevent multiple animations
+      
       currentIndex++;
-      
-      if (currentIndex >= totalCards) {
-        setTimeout(() => {
-          gsap.set(slider, { x: 0 });
-          currentIndex = 0;
-        }, 500);
-      }
-      
       updateSlider();
     }
     
     function prevSlide() {
+      if (isAnimating) return; // Prevent multiple animations
+      
       currentIndex--;
       
       if (currentIndex < 0) {
-        currentIndex = totalCards - 1;
-        const endPosition = -currentIndex * cardWidth;
-        gsap.set(slider, { x: endPosition });
+        // Jump to clone position at the end
+        currentIndex = totalCards * 2 - 1;
       }
       
       updateSlider();
@@ -978,7 +1045,7 @@ function initAboutPage() {
     nextBtn.addEventListener('click', nextSlide);
     prevBtn.addEventListener('click', prevSlide);
     
-    setInterval(nextSlide, 5000);
+    setInterval(nextSlide, 3000);
     
     updateSlider();
   }
