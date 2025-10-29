@@ -134,20 +134,20 @@ function init() {
     const animateWord = () => {
       changingWord.textContent = words[currentIndex]
       gsap.fromTo(changingWord, { opacity: 0, y: 20 }, {
-        duration: 0.5, opacity: 1, y: 0, ease: 'power2.inOut',
+        duration: 0.3, opacity: 1, y: 0, ease: 'power2.inOut',
         onComplete: () => {
           setTimeout(() => {
             if (currentIndex < words.length - 1) {
               gsap.to(changingWord, {
-                duration: 0.5, opacity: 0, y: -20, ease: 'power2.inOut',
+                duration: 0.3, opacity: 0, y: -20, ease: 'power2.inOut',
                 onComplete: () => { currentIndex++; animateWord() }
               })
             }
-          }, 1500)
+          }, 1000)
         }
       })
     }
-    setTimeout(animateWord, 2000)
+    setTimeout(animateWord, 1000)
   }
 }
 
@@ -1196,6 +1196,91 @@ function initContactPage() {
         }
       }
     );
+    
+    // AJAX form submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalText = submitButton.textContent;
+      const formData = new FormData(form);
+      
+      // Disable button and show loading state
+      submitButton.disabled = true;
+      submitButton.textContent = 'Wysyłanie...';
+      
+      // Remove previous messages
+      const previousMessages = document.querySelectorAll('#contact-form .bg-green-600, #contact-form .bg-red-600');
+      previousMessages.forEach(msg => msg.remove());
+      
+      // Remove previous error messages
+      const previousErrors = form.querySelectorAll('.text-red-400, .border-red-500');
+      previousErrors.forEach(err => {
+        if (err.classList.contains('text-red-400')) err.remove();
+        if (err.classList.contains('border-red-500')) {
+          err.classList.remove('border-red-500');
+          err.classList.add('border-gray-600');
+        }
+      });
+      
+      try {
+        const response = await fetch('/kontakt', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          // Success message
+          const successDiv = document.createElement('div');
+          successDiv.className = 'mb-6 p-4 bg-green-600 text-white rounded-lg';
+          successDiv.textContent = data.message || 'Wiadomość została wysłana pomyślnie!';
+          form.parentElement.insertBefore(successDiv, form);
+          
+          // Reset form
+          form.reset();
+          
+          // Scroll to success message
+          successDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          // Error message
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'mb-6 p-4 bg-red-600 text-white rounded-lg';
+          errorDiv.textContent = data.message || 'Wystąpił błąd podczas wysyłania wiadomości.';
+          form.parentElement.insertBefore(errorDiv, form);
+          
+          // Show field errors
+          if (data.errors) {
+            Object.keys(data.errors).forEach(field => {
+              const input = form.querySelector(`[name="${field}"]`);
+              if (input) {
+                input.classList.remove('border-gray-600');
+                input.classList.add('border-red-500');
+                
+                const errorMsg = document.createElement('p');
+                errorMsg.className = 'mt-1 text-sm text-red-400';
+                errorMsg.textContent = data.errors[field];
+                input.parentElement.appendChild(errorMsg);
+              }
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'mb-6 p-4 bg-red-600 text-white rounded-lg';
+        errorDiv.textContent = 'Wystąpił błąd podczas wysyłania wiadomości. Spróbuj ponownie.';
+        form.parentElement.insertBefore(errorDiv, form);
+      } finally {
+        // Re-enable button
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+      }
+    });
   }
   
   // Location section

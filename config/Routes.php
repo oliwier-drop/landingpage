@@ -5,7 +5,8 @@ namespace Corpotech\Landingpage\Config;
 use FastRoute\RouteCollector;
 use FastRoute\Dispatcher;
 use Corpotech\Landingpage\Helpers\ViewHelper;
-use Corpotech\Landingpage\Services\MailService;
+use Corpotech\Landingpage\Controllers\ContactController;
+use Corpotech\Landingpage\Controllers\ErrorController;
 
 class Routes
 {
@@ -16,28 +17,58 @@ class Routes
         self::$dispatcher = \FastRoute\simpleDispatcher(function(RouteCollector $r) {
             // Strona główna - używa home.layout.php
             $r->addRoute('GET', '/', function() {
-                ViewHelper::render('home', ['title' => ''], 'home');
+                ViewHelper::render('home', [
+                    'title' => '',
+                    'description' => 'Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.',
+                    'keywords' => 'Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT, usługi informatyczne, usługi IT, usługi cyberbezpieczeństwa, usługi konsultacji, usługi serwerowni, usługi sieci, usługi rozwiązań IT',
+                    'robots' => 'index, follow'
+                ], 'home');
             });
             
             // Strony używające app.layout.php
             $r->addRoute('GET', '/o-nas', function() {
-                ViewHelper::render('about', ['title' => 'O nas - ', 'description' => 'O nas - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.', 'keywords' => 'O nas, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT']);
+                ViewHelper::render('about', [
+                    'title' => 'O nas - ',
+                    'description' => 'O nas - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.',
+                    'keywords' => 'O nas, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT',
+                    'robots' => 'index, follow'
+                ]);
+            });
+
+            $r->addRoute('GET', '/uslugi', function() {
+                ViewHelper::render('services', ['title' => 'Usługi - ', 'description' => 'Usługi - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.', 'keywords' => 'Usługi, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT']);
+                ViewHelper::render('services', [
+                    'title' => 'Usługi - ',
+                    'description' => 'Usługi - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.',
+                    'keywords' => 'Usługi, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT',
+                    'robots' => 'index, follow'
+                ]);
             });
             
             $r->addRoute('GET', '/kontakt', function() {
-                ViewHelper::render('contact', ['title' => 'Kontakt - ', 'description' => 'Kontakt - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.', 'keywords' => 'Kontakt, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT']);
+                ContactController::show();
             });
             
             $r->addRoute('POST', '/kontakt', function() {
-                self::handleContactForm();
+                ContactController::submit();
             });
 
             $r->addRoute('GET', '/polityka-prywatnosci', function() {
-                ViewHelper::render('privacy-policy', ['title' => 'Polityka prywatności - ', 'description' => 'Polityka prywatności - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.', 'keywords' => 'Polityka prywatności, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT']);
+                ViewHelper::render('privacy-policy', [
+                    'title' => 'Polityka prywatności - ',
+                    'description' => 'Polityka prywatności - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.',
+                    'keywords' => 'Polityka prywatności, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT',
+                    'robots' => 'noindex, nofollow'
+                ]);
             });
 
             $r->addRoute('GET', '/regulamin', function() {
-                ViewHelper::render('terms-of-service', ['title' => 'Regulamin - ', 'description' => 'Regulamin - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.', 'keywords' => 'Regulamin, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT']);
+                ViewHelper::render('terms-of-service', [
+                    'title' => 'Regulamin - ',
+                    'description' => 'Regulamin - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.',
+                    'keywords' => 'Regulamin, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT',
+                    'robots' => 'noindex, nofollow'
+                ]);
             });
             
             // API endpoints
@@ -48,7 +79,7 @@ class Routes
             
             // 404 - ostatnia trasa
             $r->addRoute('GET', '/{path:.*}', function() {
-                self::handleNotFound();
+                ErrorController::notFound();
             });
         });
     }
@@ -75,11 +106,11 @@ class Routes
         
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
-                self::handleNotFound();
+                ErrorController::notFound();
                 break;
                 
             case Dispatcher::METHOD_NOT_ALLOWED:
-                self::handleMethodNotAllowed($routeInfo[1]);
+                ErrorController::methodNotAllowed($routeInfo[1]);
                 break;
                 
             case Dispatcher::FOUND:
@@ -92,82 +123,5 @@ class Routes
                 }
                 break;
         }
-    }
-    
-    private static function handleContactForm()
-    {
-        // Sprawdź CSRF token
-        $csrfToken = $_POST['csrf_token'] ?? '';
-        if (!ViewHelper::verifyCsrfToken($csrfToken)) {
-            http_response_code(403);
-            ViewHelper::render('error', [
-                'error_code' => 403,
-                'error_message' => 'Invalid CSRF token'
-            ]);
-            return;
-        }
-        
-        // Walidacja danych
-        $name = trim($_POST['name'] ?? '');
-        $email = trim($_POST['email'] ?? '');
-        $message = trim($_POST['message'] ?? '');
-        
-        $errors = [];
-        
-        if (empty($name)) {
-            $errors['name'] = 'Imię jest wymagane';
-        }
-        
-        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'Prawidłowy email jest wymagany';
-        }
-        
-        if (empty($message)) {
-            $errors['message'] = 'Wiadomość jest wymagana';
-        }
-        
-        if (!empty($errors)) {
-            // Przekieruj z błędami
-            $_SESSION['form_errors'] = $errors;
-            $_SESSION['old_input'] = $_POST;
-            ViewHelper::redirect('/kontakt');
-            return;
-        }
-        
-        // Wyślij email (jeśli MailService jest dostępny)
-        try {
-            if (class_exists('Corpotech\Landingpage\Services\MailService')) {
-                $mailService = new MailService();
-                $mailService->sendContactForm($name, $email, $message);
-            }
-            
-            // Sukces
-            $_SESSION['success_message'] = 'Wiadomość została wysłana pomyślnie!';
-            ViewHelper::redirect('/kontakt');
-            
-        } catch (Exception $e) {
-            // Błąd wysyłania
-            $_SESSION['form_errors'] = ['general' => 'Wystąpił błąd podczas wysyłania wiadomości.'];
-            $_SESSION['old_input'] = $_POST;
-            ViewHelper::redirect('/kontakt');
-        }
-    }
-    
-    private static function handleNotFound()
-    {
-        http_response_code(404);
-        ViewHelper::render('error', [
-            'error_code' => 404,
-            'error_message' => 'Strona nie została znaleziona'
-        ]);
-    }
-    
-    private static function handleMethodNotAllowed($allowedMethods)
-    {
-        http_response_code(405);
-        ViewHelper::render('error', [
-            'error_code' => 405,
-            'error_message' => 'Metoda nie jest dozwolona'
-        ]);
     }
 }

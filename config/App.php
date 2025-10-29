@@ -20,9 +20,9 @@ class App
         
         
         // Ładowanie zmiennych środowiskowych
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/..');
-        if (file_exists(__DIR__ . '/../.env')) {
-            $dotenv->load();
+        $root = dirname(__DIR__);
+        if (is_file($root.'/.env')) {
+            Dotenv::createImmutable($root)->load();
         }
     }
     

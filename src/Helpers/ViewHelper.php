@@ -83,6 +83,20 @@ class ViewHelper
         return !empty($_SESSION['form_errors'][$key]);
     }
     
+    public static function getError($key)
+    {
+        $error = $_SESSION['form_errors'][$key] ?? '';
+        // Usuń błąd po pobraniu (podobnie jak successMessage)
+        if (!empty($error)) {
+            unset($_SESSION['form_errors'][$key]);
+            // Jeśli nie ma już żadnych błędów, usuń całą tablicę
+            if (empty($_SESSION['form_errors'])) {
+                unset($_SESSION['form_errors']);
+            }
+        }
+        return $error;
+    }
+    
     public static function successMessage()
     {
         $message = $_SESSION['success_message'] ?? '';

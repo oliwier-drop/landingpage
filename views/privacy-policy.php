@@ -112,10 +112,10 @@
             </ul>
             
             <h4 class="text-lg font-medium text-white mb-3 mt-6">5.2. Kontakt w sprawie uprawnień</h4>
-            <p class="mb-6 text-gray-200 leading-relaxed">W celu skorzystania z któregokolwiek z powyższych uprawnień, prosimy o kontakt z Administratorem za pośrednictwem adresu e-mail: <span class="text-brand-orange-main font-semibold">rodo@corpotech.com.pl</span></p>
+            <p class="mb-6 text-gray-200 leading-relaxed">W celu skorzystania z któregokolwiek z powyższych uprawnień, prosimy o kontakt z Administratorem za pośrednictwem adresu e-mail: <a href="mailto:rodo@corpotech.com.pl" class="text-brand-orange-main font-semibold">rodo@corpotech.com.pl</a></p>
             
             <h3 class="text-xl font-semibold text-brand-orange-main mb-4 mt-8">3. Wycofanie zgody</h3>
-            <p class="mb-6 text-gray-200 leading-relaxed">W zakresie, w jakim dane osobowe przetwarzane są na podstawie zgody, mają Państwo prawo do jej cofnięcia w dowolnym momencie. Cofnięcie zgody nie wpływa na legalność przetwarzania, które miało miejsce przed jej wycofaniem. Oświadczenie o wycofaniu zgody można przesłać na adres e-mail: <span class="text-brand-orange-main font-semibold">rodo@corpotech.com.pl</span> lub adres korespondencyjny Administratora.</p>
+            <p class="mb-6 text-gray-200 leading-relaxed">W zakresie, w jakim dane osobowe przetwarzane są na podstawie zgody, mają Państwo prawo do jej cofnięcia w dowolnym momencie. Cofnięcie zgody nie wpływa na legalność przetwarzania, które miało miejsce przed jej wycofaniem. Oświadczenie o wycofaniu zgody można przesłać na adres e-mail: <a href="mailto:rodo@corpotech.com.pl" class="text-brand-orange-main font-semibold">rodo@corpotech.com.pl</a> lub adres korespondencyjny Administratora.</p>
             
             <h3 class="text-xl font-semibold text-brand-orange-main mb-4 mt-8">4. Prawo do złożenia skargi</h3>
             <p class="mb-6 text-gray-200 leading-relaxed">Osobom, których dane dotyczą, przysługuje również prawo wniesienia skargi do organu nadzorczego odpowiedzialnego za ochronę danych osobowych – tj. Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki 2, 00-193 Warszawa; www.uodo.gov.pl).</p>
@@ -129,7 +129,7 @@
             <p class="mb-6 text-gray-200 leading-relaxed">Administrator nie zbiera w sposób celowy danych szczególnych kategorii, o których mowa w art. 9 ust. 1 RODO (np. dane o stanie zdrowia, przekonaniach religijnych, orientacji seksualnej), ani danych dotyczących wyroków skazujących i naruszeń prawa, o których mowa w art. 10 RODO – chyba że obowiązek ich przetwarzania wynika wprost z przepisów prawa lub sytuacji opisanych szczegółowo w niniejszej Polityce Prywatności.</p>
             
             <h4 class="text-lg font-medium text-white mb-3 mt-6">6.2. Zalecenia dla użytkowników</h4>
-            <p class="mb-6 text-gray-200 leading-relaxed">Użytkownicy proszeni są o zachowanie szczególnej ostrożności przy przesyłaniu tego rodzaju danych – w przypadku braku wyraźnej potrzeby przekazywania informacji szczególnej kategorii, zalecamy ich nieudostępnianie. W razie wątpliwości dotyczących zasadności przekazania takich danych, prosimy o wcześniejszy kontakt z Administratorem pod adresem e-mail: <span class="text-brand-orange-main font-semibold">rodo@corpotech.com.pl</span></p>
+            <p class="mb-6 text-gray-200 leading-relaxed">Użytkownicy proszeni są o zachowanie szczególnej ostrożności przy przesyłaniu tego rodzaju danych – w przypadku braku wyraźnej potrzeby przekazywania informacji szczególnej kategorii, zalecamy ich nieudostępnianie. W razie wątpliwości dotyczących zasadności przekazania takich danych, prosimy o wcześniejszy kontakt z Administratorem pod adresem e-mail: <a href="mailto:rodo@corpotech.com.pl" class="text-brand-orange-main font-semibold">rodo@corpotech.com.pl</a></p>
             
             <h3 class="text-xl font-semibold text-brand-orange-main mb-4 mt-8">7. Adresy IP</h3>
             <p class="mb-6 text-gray-200 leading-relaxed">Adres protokołu internetowego (IP) to unikalny numer przydzielany urządzeniu Użytkownika w momencie nawiązywania połączenia z Internetem. Może on być wykorzystywany do identyfikacji urządzenia w sieci oraz do umożliwienia komunikacji pomiędzy przeglądarką Użytkownika a naszym serwerem. Adresy IP osób odwiedzających Serwis mogą być rejestrowane w celu zapewnienia bezpieczeństwa infrastruktury informatycznej, diagnozowania problemów technicznych, monitorowania incydentów oraz prowadzenia statystycznych analiz zbiorczych dotyczących sposobu korzystania z Serwisu (np. liczby odwiedzin, trendów ruchu).</p>
@@ -218,6 +218,15 @@
             
             <h4 class="text-lg font-medium text-white mb-3 mt-6">7.2. Publikacja zmian</h4>
             <p class="mb-6 text-gray-200 leading-relaxed">Zaktualizowana wersja Polityki Prywatności publikowana będzie każdorazowo na stronie internetowej Serwisu z odpowiednią adnotacją o dacie wejścia zmian w życie.</p>
+        
+            <h3 class="text-xl font-semibold text-brand-orange-main mb-4 mt-8">8. Klauzlule informacyjne</h3>
+            <p class="mb-4 text-gray-200 leading-relaxed">Klauzule informacyjne na temat przetwarzania danych osobowych przez Grupa Corpotech Sp. z o.o. znajdują się pod poniższymi linkami:</p>
+            <ul class="mb-6 text-gray-200 space-y-2">
+                <li class="flex items-start"><span class="text-brand-orange-main mr-3 mt-1">•</span><a href="/assets/documents/klauzula-informacyjna-pracownika.pdf" target="_blank" class="text-brand-orange-main font-semibold">Klauzula informacyjna pracownika</a></li>
+                <li class="flex items-start"><span class="text-brand-orange-main mr-3 mt-1">•</span><a href="/assets/documents/klauzula-informacyjna-kontrahenta.pdf" target="_blank" class="text-brand-orange-main font-semibold">Klauzula informacyjna kontrahenta</a></li>
+                <li class="flex items-start"><span class="text-brand-orange-main mr-3 mt-1">•</span><a href="/assets/documents/klauzula-informacyjna-kandydata.pdf" target="_blank" class="text-brand-orange-main font-semibold">Klauzula informacyjna kandydata do pracy</a></li>
+                <li class="flex items-start"><span class="text-brand-orange-main mr-3 mt-1">•</span><a href="/assets/documents/klauzula-informacyjna-stażysta.pdf" target="_blank" class="text-brand-orange-main font-semibold">Klauzula informacyjna stażysty</a></li>
+            </ul>
         </div>
     </div>
 </section>

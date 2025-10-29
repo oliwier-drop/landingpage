@@ -1,0 +1,20 @@
+User-agent: *
+
+# Zezwól na indeksowanie strony głównej i pozostałych treści
+Allow: /
+
+# Zablokuj indeksowanie stron, które nie powinny pojawiać się w wynikach wyszukiwania
+Disallow: /regulamin
+Disallow: /polityka-prywatnosci
+
+# Zablokuj strony błędów (gdyby były dostępne pod ścieżkami)
+Disallow: /404
+Disallow: /405
+Disallow: /errors/
+
+# (Opcjonalnie) tempo crawlowania – odkomentuj, jeśli potrzebne
+# Crawl-delay: 5
+
+# (Opcjonalnie) ścieżka do mapy strony – odkomentuj, jeśli masz sitemap.xml
+Sitemap: https://corpotech.com.pl/sitemap.xml
+

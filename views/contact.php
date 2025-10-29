@@ -140,22 +140,54 @@
     </div>
 </section>
 
+<?php
+use Corpotech\Landingpage\Helpers\ViewHelper;
+
+$successMessage = ViewHelper::successMessage();
+?>
+
 <section id="contact-form" class="bg-[#0d1b2a]">
   <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
       <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-white">Formularz kontaktowy</h2>
       <p class="mb-8 lg:mb-16 font-light text-center text-gray-300 sm:text-xl">Masz pytania? Potrzebujesz szczegółów dotyczących naszych usług? Napisz do nas.</p>
-      <form action="#" class="space-y-8">
+      
+      <?php if ($successMessage): ?>
+          <div class="mb-6 p-4 bg-green-600 text-white rounded-lg">
+              <?= htmlspecialchars($successMessage, ENT_QUOTES, 'UTF-8') ?>
+          </div>
+      <?php endif; ?>
+      
+      <?php 
+      $generalError = ViewHelper::getError('general');
+      if ($generalError): ?>
+          <div class="mb-6 p-4 bg-red-600 text-white rounded-lg">
+              <?= htmlspecialchars($generalError, ENT_QUOTES, 'UTF-8') ?>
+          </div>
+      <?php endif; ?>
+      
+      <form action="/kontakt" method="POST" class="space-y-8">
+          <?= ViewHelper::csrfField() ?>
+          
           <div>
               <label for="email" class="block mb-2 text-sm font-medium text-white">Twój email</label>
-              <input type="email" id="email" class="shadow-sm bg-gray-800 border border-gray-600 text-white text-sm rounded-lg focus:ring-brand-orange-main focus:border-brand-orange-main focus:outline-none block w-full p-2.5 placeholder-gray-400" placeholder="email@example.com" required>
+              <input type="email" id="email" name="email" value="<?= ViewHelper::old('email') ?>" class="shadow-sm bg-gray-800 border <?= ViewHelper::hasError('email') ? 'border-red-500' : 'border-gray-600' ?> text-white text-sm rounded-lg focus:ring-brand-orange-main focus:border-brand-orange-main focus:outline-none block w-full p-2.5 placeholder-gray-400" placeholder="email@example.com" required>
+              <?php if (ViewHelper::hasError('email')): ?>
+                  <p class="mt-1 text-sm text-red-400"><?= htmlspecialchars(ViewHelper::error('email'), ENT_QUOTES, 'UTF-8') ?></p>
+              <?php endif; ?>
           </div>
           <div>
               <label for="subject" class="block mb-2 text-sm font-medium text-white">Temat</label>
-              <input type="text" id="subject" class="block p-3 w-full text-sm text-white bg-gray-800 rounded-lg border border-gray-600 shadow-sm focus:ring-brand-orange-main focus:border-brand-orange-main focus:outline-none placeholder-gray-400" placeholder="Temat wiadomości" required>
+              <input type="text" id="subject" name="subject" value="<?= ViewHelper::old('subject') ?>" class="block p-3 w-full text-sm text-white bg-gray-800 rounded-lg border <?= ViewHelper::hasError('subject') ? 'border-red-500' : 'border-gray-600' ?> shadow-sm focus:ring-brand-orange-main focus:border-brand-orange-main focus:outline-none placeholder-gray-400" placeholder="Temat wiadomości" required>
+              <?php if (ViewHelper::hasError('subject')): ?>
+                  <p class="mt-1 text-sm text-red-400"><?= htmlspecialchars(ViewHelper::error('subject'), ENT_QUOTES, 'UTF-8') ?></p>
+              <?php endif; ?>
           </div>
           <div class="sm:col-span-2">
               <label for="message" class="block mb-2 text-sm font-medium text-white">Twoja wiadomość</label>
-              <textarea id="message" rows="6" class="block p-2.5 w-full text-sm text-white bg-gray-800 rounded-lg shadow-sm border border-gray-600 focus:ring-brand-orange-main focus:border-brand-orange-main focus:outline-none placeholder-gray-400" placeholder="Napisz nam swoją wiadomość..."></textarea>
+              <textarea id="message" name="message" rows="6" class="block p-2.5 w-full text-sm text-white bg-gray-800 rounded-lg shadow-sm border <?= ViewHelper::hasError('message') ? 'border-red-500' : 'border-gray-600' ?> focus:ring-brand-orange-main focus:border-brand-orange-main focus:outline-none placeholder-gray-400" placeholder="Napisz nam swoją wiadomość..." required><?= htmlspecialchars(ViewHelper::old('message'), ENT_QUOTES, 'UTF-8') ?></textarea>
+              <?php if (ViewHelper::hasError('message')): ?>
+                  <p class="mt-1 text-sm text-red-400"><?= htmlspecialchars(ViewHelper::error('message'), ENT_QUOTES, 'UTF-8') ?></p>
+              <?php endif; ?>
           </div>
           <div class="flex items-start">
               <div class="flex items-center h-5">
@@ -166,6 +198,12 @@
           <button type="submit" class="py-3 px-6 text-sm font-medium text-center text-white rounded-lg bg-brand-orange-main sm:w-fit hover:bg-brand-orange-dark focus:ring-4 focus:outline-none focus:ring-brand-orange-main/30">Wyślij wiadomość</button>
       </form>
   </div>
+  
+  <?php
+  // Wyczyść dane formularza po wyświetleniu (błędy i stare wartości już zostały pokazane)
+  // To zapewnia że po odświeżeniu strony komunikaty znikną
+  ViewHelper::clearFormData();
+  ?>
 </section>
 
 <section id="location" class="bg-brand-navy-main h-min-screen">

@@ -371,9 +371,9 @@
     <section class="pSection pSection-right">
         <div class="container">
             <div class="pContent pContent-right">
-                <h3 class="project-title">System zarządania zamówieniami dla Agmar</h3>
+                <h3 class="project-title">System zarządania zamówieniami dla Marpol</h3>
                 <p class="project-description">
-                    Kompleksowe przygotowanie i wdrożenie systemu zarządania zamówieniami i produkcji dla Agmar.
+                    Kompleksowe przygotowanie i wdrożenie systemu zarządania zamówieniami i produkcji dla Marpol.
                 </p>
                 <div class="project-tags">
                     <span class="tag">MySQL</span>
