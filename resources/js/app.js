@@ -153,6 +153,141 @@ function init() {
 
 onReady(init)
 
+// Services page: expandable cards
+function initServicesPage() {
+  const cards = document.querySelectorAll('.service-card')
+  if (!cards.length) return
+
+  cards.forEach(card => {
+    const toggle = card.querySelector('.service-toggle')
+    const extra = card.querySelector('.service-extra')
+    if (!toggle) return
+
+    toggle.addEventListener('click', () => openServiceModal(card, extra))
+  })
+}
+
+onReady(initServicesPage)
+
+function openServiceModal(card, extra) {
+  // Dane z atrybutów data-
+  const title = card.dataset.title || (card.querySelector('h3')?.textContent.trim() || '')
+  const details = card.dataset.details || ''
+  const tech = (card.dataset.tech || '').split(',').map(s => s.trim()).filter(Boolean)
+  const points = (card.dataset.points || '').split(';').map(s => s.trim()).filter(Boolean)
+  const imgEl = card.querySelector('img')
+  const imgSrc = imgEl ? imgEl.getAttribute('src') : ''
+  const imgAlt = imgEl ? imgEl.getAttribute('alt') || '' : ''
+
+  // Overlay i modal (prosty modal, bez animacji FLIP)
+  const overlay = document.createElement('div')
+  overlay.className = 'fixed inset-0 z-[1000] bg-black/60 opacity-0'
+  const modal = document.createElement('div')
+  modal.className = 'fixed z-[1001] bg-white rounded-2xl shadow-2xl opacity-0 max-w-[960px] w-[92%] max-h-[90vh] overflow-auto'
+
+  modal.innerHTML = `
+    <div class="relative">
+      <button type="button" aria-label="Zamknij" class="absolute top-3 right-3 rounded-full bg-black/60 text-white w-9 h-9 flex items-center justify-center hover:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white/50">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+      <div class="w-full max-h-[40vh] overflow-hidden bg-gray-200">
+        ${imgSrc ? `<img src="${imgSrc}" alt="${imgAlt}" class="w-full h-full object-cover">` : ''}
+      </div>
+    </div>
+    <div class="p-6">
+      <h3 class="text-2xl font-bold text-brand-navy-main mb-3">${title}</h3>
+      ${details ? `<p class=\"text-brand-navy-main/80 mb-5 leading-relaxed\">${details}</p>` : ''}
+      ${points.length ? `
+        <ul class=\"text-brand-navy-main mb-5 space-y-2\">
+          ${points.map(p => `<li class=\"flex items-start\"><span class=\"text-brand-orange-main mr-2 text-lg leading-none\">→</span><span>${p}</span></li>`).join('')}
+        </ul>
+      ` : ''}
+      ${tech.length ? `<div class=\"flex flex-wrap gap-2\">${tech.map(t => `<span class=\"px-3 py-1 rounded-full bg-gray-100 text-brand-navy-main text-xs font-medium border border-gray-200\">${t}</span>`).join('')}</div>` : ''}
+    </div>
+  `
+
+  document.body.appendChild(overlay)
+  document.body.appendChild(modal)
+
+  // Wyśrodkowanie modala
+  const reposition = () => {
+    const mw = modal.offsetWidth
+    const mh = modal.offsetHeight
+    const left = (window.innerWidth - mw) / 2
+    const top = Math.max(24, (window.innerHeight - mh) / 2)
+    gsap.set(modal, { left, top })
+  }
+  reposition()
+  window.addEventListener('resize', reposition, { passive: true })
+
+  // Wejście
+  gsap.to(overlay, { duration: 0.2, opacity: 1, ease: 'power2.out' })
+  gsap.to(modal, { duration: 0.3, opacity: 1, ease: 'power2.out' })
+
+  const close = () => {
+    window.removeEventListener('resize', reposition)
+    gsap.timeline({ defaults: { ease: 'power2.inOut' } })
+      .to(modal, { duration: 0.2, opacity: 0 })
+      .to(overlay, { duration: 0.2, opacity: 0 }, '<')
+      .add(() => { overlay.remove(); modal.remove() })
+  }
+
+  overlay.addEventListener('click', close)
+  const closeBtn = modal.querySelector('button[aria-label="Zamknij"]')
+  if (closeBtn) closeBtn.addEventListener('click', close)
+  const onKey = (e) => { if (e.key === 'Escape') { close(); window.removeEventListener('keydown', onKey) } }
+  window.addEventListener('keydown', onKey)
+}
+
+// Services page fade-in animations
+function initServicesAnimations() {
+  const section = document.getElementById('services-list')
+  if (!section) return
+
+  const title = section.querySelector('h2')
+  const cards = section.querySelectorAll('.service-card')
+
+  if (title) {
+    gsap.fromTo(title,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      }
+    )
+  }
+
+  if (cards.length) {
+    cards.forEach((card) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      )
+    })
+  }
+}
+
+onReady(initServicesAnimations)
+
+// Usunięto initContactCTAAnimations() - elementy nie istnieją na stronie kontaktowej
+
 // Hero pinned; About slides up proportionally to scroll
 function initAbout() {
   const stack = document.querySelector('.stack-hero-about');
@@ -468,11 +603,10 @@ function animateFadeIn(selector, options = {}) {
 
 // Initialize all fade in animations
 function initFadeInAnimations() {
-  // Clients section (use IntersectionObserver like CTA)
+  // Clients section (use IntersectionObserver)
   initClientsFadeWithIO();
   
-  // CTA section handled by IntersectionObserver (robust w.r.t. pins/parallax)
-  initCTAFadeWithIO();
+  // CTA/Form section handled by initContactPage() - removed duplicate initCTAFadeWithIO()
   
   // Partners section
   initPartnersFadeWithIO();
@@ -485,32 +619,8 @@ onReady(() => {
   setTimeout(() => ScrollTrigger.refresh(), 200);
 })
 
-// IntersectionObserver-based CTA fade (not affected by ScrollTrigger calculations)
-function initCTAFadeWithIO() {
-  const cta = document.getElementById('contact-cta');
-  if (!cta) return;
-  const title = cta.querySelector('.cta-title-animate');
-  const desc  = cta.querySelector('.cta-description-animate');
-  const btn   = cta.querySelector('.cta-button-animate');
-  if (!title || !desc || !btn) return;
-
-  // initial state
-  gsap.set([title, desc, btn], { opacity: 0, y: 50 });
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const tl = gsap.timeline({ defaults: { ease: 'power2.out', duration: 0.8 } });
-        tl.to(title, { opacity: 1, y: 0 })
-          .to(desc,  { opacity: 1, y: 0 }, '+=0.1')
-          .to(btn,   { opacity: 1, y: 0 }, '+=0.1');
-        observer.disconnect();
-      }
-    });
-  }, { threshold: 0.2 }); // 20% CTA widoczne -> animuj
-
-  observer.observe(cta);
-}
+// Usunięto initCTAFadeWithIO() - elementy nie istnieją na stronie kontaktowej
+// Animacja formularza jest obsługiwana przez initContactPage()
 
 // IntersectionObserver-based Clients fade
 function initClientsFadeWithIO() {
@@ -1160,44 +1270,43 @@ function initContactPage() {
       );
     });
   }
-  
-  // Contact form section
-  const formTitle = document.querySelector('#contact-form h2');
-  const formDesc = document.querySelector('#contact-form p');
+
+  // Contact form section animation
+  const formSectionEl = document.getElementById('contact-form');
+  if (formSectionEl) {
+    const formElements = [
+      formSectionEl.querySelector('h2'),
+      formSectionEl.querySelector('p'),
+      formSectionEl.querySelector('form')
+    ].filter(Boolean);
+
+    if (formElements.length) {
+      gsap.fromTo(
+        formElements,
+        {
+          autoAlpha: 0,
+          y: 40
+        },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power2.out',
+          stagger: 0.12,
+          scrollTrigger: {
+            trigger: formSectionEl,
+            start: 'top 80%',
+            toggleActions: 'play none none none',
+            once: true
+          }
+        }
+      );
+    }
+  }
+
+  // AJAX form submission
   const form = document.querySelector('#contact-form form');
-  if (formTitle && formDesc && form) {
-    gsap.fromTo([formTitle, formDesc], 
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        stagger: 0.1,
-        scrollTrigger: {
-          trigger: "#contact-form",
-          start: "top 80%",
-          toggleActions: "play none none none"
-        }
-      }
-    );
-    
-    gsap.fromTo(form, 
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: form,
-          start: "top 80%",
-          toggleActions: "play none none none"
-        }
-      }
-    );
-    
-    // AJAX form submission
+  if (form) {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -1319,4 +1428,43 @@ function initContactPage() {
   }
 }
 
+function initContactCTA() {
+  const section = document.getElementById('contact-cta');
+  if (!section) {
+    return;
+  }
+
+  const elements = [
+    section.querySelector('.cta-title-animate'),
+    section.querySelector('.cta-description-animate'),
+    section.querySelector('.cta-button-animate')
+  ].filter(Boolean);
+
+  if (!elements.length) {
+    return;
+  }
+
+  gsap.fromTo(
+    elements,
+    {
+      autoAlpha: 0,
+      y: 40
+    },
+    {
+      autoAlpha: 1,
+      y: 0,
+      duration: 0.8,
+      ease: 'power2.out',
+      stagger: 0.15,
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+        once: true
+      }
+    }
+  );
+}
+
 onReady(initContactPage)
+onReady(initContactCTA)

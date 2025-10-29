@@ -36,7 +36,6 @@ class Routes
             });
 
             $r->addRoute('GET', '/uslugi', function() {
-                ViewHelper::render('services', ['title' => 'Usługi - ', 'description' => 'Usługi - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.', 'keywords' => 'Usługi, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT']);
                 ViewHelper::render('services', [
                     'title' => 'Usługi - ',
                     'description' => 'Usługi - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.',

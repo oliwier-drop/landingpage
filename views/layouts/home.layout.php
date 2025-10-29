@@ -62,7 +62,7 @@
                 <!-- Navigation (Right side) -->
                 <nav class="hidden md:flex items-center space-x-8 h-16 absolute right-0 top-1/2 transform -translate-y-1/2">
                     <a href="/o-nas" class="text-white hover:text-brand-orange-main transition-colors duration-300 flex items-center justify-center h-16 text-lg leading-none">O nas</a>
-                    <a href="#services" class="text-white hover:text-brand-orange-main transition-colors duration-300 flex items-center justify-center h-16 text-lg leading-none">Usługi</a>
+                    <a href="/uslugi" class="text-white hover:text-brand-orange-main transition-colors duration-300 flex items-center justify-center h-16 text-lg leading-none">Usługi</a>
                     <a href="#projects" class="text-white hover:text-brand-orange-main transition-colors duration-300 flex items-center justify-center h-16 text-lg leading-none">Projekty</a>
                     <a href="/kontakt" class="text-white hover:text-brand-orange-main transition-colors duration-300 flex items-center justify-center h-16 text-lg leading-none">Kontakt</a>
                 </nav>
