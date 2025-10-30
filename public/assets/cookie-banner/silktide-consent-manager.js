@@ -770,16 +770,14 @@ class SilktideCookieBanner {
   }
 
   preventBodyScroll() {
+    // Delikatna blokada scrolla bez zmiany position (lepsza kompatybilność z GSAP/ScrollTrigger)
+    document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
-    // Prevent iOS Safari scrolling
-    document.body.style.position = 'fixed';
-    document.body.style.width = '100%';
   }
 
   allowBodyScroll() {
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.width = '';
   }
 }
 
