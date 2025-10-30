@@ -80,9 +80,8 @@ class ContactController
         // Wyślij email
         try {
             $mailService = new MailService();
-            // Używamy części przed @ jako name
-            $name = explode('@', $email)[0];
-            $mailService->sendContactForm($name, $email, $subject, $message);
+            // Kolejność: name, email, subject, message (name nie jest zbierane – przekaż null)
+            $mailService->sendContactForm(null, $email, $subject, $message);
             
             if ($isAjax) {
                 header('Content-Type: application/json');

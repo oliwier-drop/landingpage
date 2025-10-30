@@ -165,3 +165,6 @@
 
 </body>
 </html>
+
+<link rel="stylesheet" id="silktide-consent-manager-css" href="/assets/cookie-banner/silktide-consent-manager.css">
+<script defer src="/assets/cookie-banner/silktide-consent-manager.js"></script>

@@ -219,7 +219,7 @@
             <h4 class="text-lg font-medium text-white mb-3 mt-6">7.2. Publikacja zmian</h4>
             <p class="mb-6 text-gray-200 leading-relaxed">Zaktualizowana wersja Polityki Prywatności publikowana będzie każdorazowo na stronie internetowej Serwisu z odpowiednią adnotacją o dacie wejścia zmian w życie.</p>
         
-            <h3 class="text-xl font-semibold text-brand-orange-main mb-4 mt-8">8. Klauzlule informacyjne</h3>
+            <h2 class="text-3xl font-bold text-white mb-8 mt-12 border-b-2 border-brand-orange-main pb-4">IV. Klauzlule informacyjne</h2>
             <p class="mb-4 text-gray-200 leading-relaxed">Klauzule informacyjne na temat przetwarzania danych osobowych przez Grupa Corpotech Sp. z o.o. znajdują się pod poniższymi linkami:</p>
             <ul class="mb-6 text-gray-200 space-y-2">
                 <li class="flex items-start"><span class="text-brand-orange-main mr-3 mt-1">•</span><a href="/assets/documents/klauzula-informacyjna-pracownika.pdf" target="_blank" class="text-brand-orange-main font-semibold">Klauzula informacyjna pracownika</a></li>

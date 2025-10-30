@@ -266,7 +266,7 @@
                                 </div>
                                 <div class="bg-[#0d1b2a] p-6 text-center">
                                     <h3 class="text-xl font-bold text-white mb-2">Paweł żuchowski</h3>
-                                    <p class="text-brand-orange-main text-sm mb-3">Specjalista ds. utrzymania infrastruktury</p>
+                                    <p class="text-brand-orange-main text-sm mb-3">Specjalista ds. infrastruktury</p>
                                     <p class="text-white text-sm mb-4">Specjalista w zakresie utrzymania infrastruktury niskoprądowej.</p>
                                     <a href="#" target="_blank" class="inline-block">
                                         <div class="flex items-center justify-center">

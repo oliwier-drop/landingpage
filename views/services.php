@@ -20,7 +20,7 @@
             <!-- Card 1 -->
             <div class="service-card bg-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow" data-title="Serwerownie" data-details="Projektujemy, budujemy i utrzymujemy nowoczesne serwerownie zgodne z najlepszymi praktykami (redundancja zasilania i chłodzenia, kontrola dostępu, monitoring środowiskowy). Zapewniamy skalowalność, bezpieczeństwo i ciągłość działania." data-tech="UPS/ATS,Rack 19”,KVM/IPMI,VMware/Proxmox,Hyper‑V,RAID/NAS/SAN,Monitoring SNMP" data-points="Projekt i budowa serwerowni;Zasilanie awaryjne (UPS) i redundancja;Chłodzenie precyzyjne i kontrola środowiska;Okablowanie, patch‑panele i porządek w szafach;Serwery fizyczne i wirtualizacja;Monitoring i alertowanie 24/7">
                 <div class="aspect-[16/9] overflow-hidden bg-gray-200">
-                    <img src="/assets/images/projects/serverroom.png" alt="Projektowanie i utrzymanie serwerowni" class="w-full h-full object-cover">
+                    <img src="/assets/images/services/serverroom.png" alt="Projektowanie i utrzymanie serwerowni" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-semibold text-brand-navy-main mb-2">Serwerownie</h3>
@@ -37,7 +37,7 @@
             <!-- Card 2 -->
             <div class="service-card bg-gray-50 rounded-xl overflow-hidden shadowsm hover:shadow-md transition-shadow" data-title="Chmura" data-details="Przygotowujemy architekturę chmurową, prowadzimy migracje, automatyzujemy infrastrukturę i optymalizujemy koszty. Zapewniamy zgodność i bezpieczeństwo usług." data-tech="AWS,Azure,Google Cloud,Docker,Kubernetes,Terraform,Ansible" data-points="Architektura i landing zone;Migracje aplikacji i danych;Automatyzacja (IaC, CI/CD);Backup i disaster recovery;Optymalizacja kosztów (FinOps);Bezpieczeństwo i zgodność (IAM, polityki)">
                 <div class="aspect-[16/9] overflow-hidden bg-gray-200">
-                    <img src="/assets/images/projects/cloud.png" alt="Rozwiązania chmurowe" class="w-full h-full object-cover">
+                    <img src="/assets/images/services/cloud.png" alt="Rozwiązania chmurowe" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-semibold text-brand-navy-main mb-2">Chmura</h3>
@@ -54,7 +54,7 @@
             <!-- Card 3 -->
             <div class="service-card bg-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow" data-title="Cyberbezpieczeństwo" data-details="Realizujemy audyty, twardnienie systemów, wdrożenia EDR/WAF/SIEM oraz stały monitoring SOC. Prowadzimy szkolenia i pomagamy w przygotowaniu do certyfikacji (np. ISO 27001)." data-tech="EDR/XDR,SIEM,WAF,IDS/IPS,VPN,MFA,ISO 27001" data-points="Audyty i testy penetracyjne;Hardening systemów i aplikacji;Monitoring i reagowanie na incydenty;Ochrona endpointów i poczty;Bezpieczny dostęp (VPN/MFA);Przygotowanie do ISO 27001">
                 <div class="aspect-[16/9] overflow-hidden bg-gray-200">
-                    <img src="/assets/images/subpage-bg.jpg" alt="Cyberbezpieczeństwo" class="w-full h-full object-cover">
+                    <img src="/assets/images/services/cybersecurity.png" alt="Cyberbezpieczeństwo" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-semibold text-brand-navy-main mb-2">Cyberbezpieczeństwo</h3>
@@ -71,7 +71,7 @@
             <!-- Card 4 -->
             <div class="service-card bg-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow" data-title="Sieci i łączność" data-details="Projektujemy i wdrażamy wydajne, bezpieczne sieci przewodowe i bezprzewodowe. Segmentacja, polityki QoS oraz wysokie SLA dla krytycznych usług." data-tech="Cisco,MikroTik,Extreme Networks,Ubiquiti UniFi,TP‑Link,HP/Aruba,Fortinet" data-points="Projekt i wdrożenia LAN/WAN;Wi‑Fi enterprise i pomiary;Segmentacja VLAN i polityki QoS;Routing (OSPF/BGP) i redundancja;Bezpieczeństwo brzegowe (NGFW);Monitoring i utrzymanie SLA">
                 <div class="aspect-[16/9] overflow-hidden bg-gray-200">
-                    <img src="/assets/images/logos/logo-poziome-pomarancz.png" alt="Sieci i łączność" class="w-full h-full object-contain bg-white">
+                    <img src="/assets/images/services/network.png" alt="Sieci i łączność" class="w-full h-full object-contain bg-white">
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-semibold text-brand-navy-main mb-2">Sieci i łączność</h3>
@@ -88,7 +88,7 @@
             <!-- Card 5 -->
             <div class="service-card bg-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow" data-title="Konsulting IT" data-details="Doradzamy strategicznie: budujemy roadmapy, modernizujemy środowisko, optymalizujemy koszty i ryzyko. Przygotowujemy plany DR/BCP i modele operacyjne." data-tech="ITIL,COBIT,TOGAF,FinOps,DR/BCP,CMDB,SLA/OLA" data-points="Strategia i roadmapy IT;Audyty i optymalizacja TCO/ROI;DR/BCP i ciągłość działania;Procesy ITIL/CMDB/SLA;Compliance i governance;Wsparcie zakupów i vendor management">
                 <div class="aspect-[16/9] overflow-hidden bg-gray-200">
-                    <img src="/assets/images/logos/logo-poziome-pomarancz.png" alt="Konsulting IT" class="w-full h-full object-contain bg-white">
+                    <img src="/assets/images/services/consulting.png" alt="Konsulting IT" class="w-full h-full object-contain bg-white">
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-semibold text-brand-navy-main mb-2">Konsulting IT</h3>
@@ -105,7 +105,7 @@
             <!-- Card 6 -->
             <div class="service-card bg-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow" data-title="Utrzymanie i wsparcie" data-details="Zapewniamy 24/7 monitoring, helpdesk, patch management i proaktywne utrzymanie systemów. Raportujemy KPI i proponujemy działania usprawniające." data-tech="Zabbix,Prometheus,Elastic,Jira,OpenProject,Tactical RMM,SLA" data-points="Helpdesk i wsparcie użytkowników;Monitoring 24/7 i alerty;Patch management i hardening;Inwentaryzacja i CMDB;Raporty KPI/SLAs;Proaktywne działania optymalizacyjne">
                 <div class="aspect-[16/9] overflow-hidden bg-gray-200">
-                    <img src="/assets/images/subpage-bg.jpg" alt="Utrzymanie i wsparcie" class="w-full h-full object-cover">
+                    <img src="/assets/images/services/support.png" alt="Utrzymanie i wsparcie" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-semibold text-brand-navy-main mb-2">Utrzymanie i wsparcie</h3>
