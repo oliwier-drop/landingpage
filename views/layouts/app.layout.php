@@ -14,6 +14,8 @@
     <meta name="google-site-verification" content="google-site-verification=google-site-verification">
     <meta name="google-site-verification" content="google-site-verification">
     
+    <?php require_once __DIR__ . '/../partials/gtm-head.php'; ?>
+    
     <!-- Google Fonts - Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +36,8 @@
     ?>
 </head>
 <body>
+    <?php require_once __DIR__ . '/../partials/gtm-body.php'; ?>
+    
     <!-- Header with Logo -->
     <header id="main-header" class="fixed top-0 left-0 right-0 z-40 bg-transparent transition-all duration-500">
         <div class="container" style="padding-left: 0; padding-right: 0;">
@@ -64,7 +68,7 @@
                 </nav>
                 
                 <!-- Mobile Menu Button -->
-                <button class="md:hidden text-white">
+                <button id="mobile-menu-button" aria-expanded="false" aria-controls="mobile-menu" class="md:hidden text-white p-3 rounded focus:outline-none focus:ring-0 absolute right-3 top-1/2 transform -translate-y-1/2">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -72,6 +76,17 @@
             </div>
         </div>
     </header>
+    <!-- Mobile Menu Panel (full-screen overlay) -->
+    <div id="mobile-menu" class="md:hidden fixed inset-0 z-30 bg-black/50 backdrop-blur-md hidden">
+        <div class="container pt-24 pb-8 h-full">
+            <div class="flex flex-col space-y-3 text-center w-full">
+                <a href="/o-nas" class="px-4 py-4 text-white text-lg hover:bg-white/10 rounded text-center">O nas</a>
+                <a href="/uslugi" class="px-4 py-4 text-white text-lg hover:bg-white/10 rounded text-center">Usługi</a>
+                <a href="/#projects" class="px-4 py-4 text-white text-lg hover:bg-white/10 rounded text-center">Projekty</a>
+                <a href="/kontakt" class="px-4 py-4 text-white text-lg hover:bg-white/10 rounded text-center">Kontakt</a>
+            </div>
+        </div>
+    </div>
     <!-- Main Content -->
     <main id="main-content" class="bg-brand-navy-main min-h-screen relative z-10 opacity-100">
         <?= $content ?? '' ?>
@@ -168,5 +183,6 @@
 </body>
 </html>
 
-<link rel="stylesheet" id="silktide-consent-manager-css" href="/assets/cookie-banner/silktide-consent-manager.css">
-<script defer src="/assets/cookie-banner/silktide-consent-manager.js"></script>
+<link rel="stylesheet" href="/assets/site-preferences/cmp.css">
+<script defer src="/assets/site-preferences/cmp.js"></script>
+<script defer src="/assets/site-preferences/cmp-config.js"></script>

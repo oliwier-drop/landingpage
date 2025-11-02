@@ -16,6 +16,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'md': '868px', // Changed from 768px for iPad Mini compatibility
+      },
              colors: {
                brand: {
                  orange: {

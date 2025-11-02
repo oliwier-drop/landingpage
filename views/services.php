@@ -71,7 +71,7 @@
             <!-- Card 4 -->
             <div class="service-card bg-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow" data-title="Sieci i łączność" data-details="Projektujemy i wdrażamy wydajne, bezpieczne sieci przewodowe i bezprzewodowe. Segmentacja, polityki QoS oraz wysokie SLA dla krytycznych usług." data-tech="Cisco,MikroTik,Extreme Networks,Ubiquiti UniFi,TP‑Link,HP/Aruba,Fortinet" data-points="Projekt i wdrożenia LAN/WAN;Wi‑Fi enterprise i pomiary;Segmentacja VLAN i polityki QoS;Routing (OSPF/BGP) i redundancja;Bezpieczeństwo brzegowe (NGFW);Monitoring i utrzymanie SLA">
                 <div class="aspect-[16/9] overflow-hidden bg-gray-200">
-                    <img src="/assets/images/services/network.png" alt="Sieci i łączność" class="w-full h-full object-contain bg-white">
+                    <img src="/assets/images/services/network.png" alt="Sieci i łączność" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-semibold text-brand-navy-main mb-2">Sieci i łączność</h3>
@@ -88,7 +88,7 @@
             <!-- Card 5 -->
             <div class="service-card bg-gray-50 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow" data-title="Konsulting IT" data-details="Doradzamy strategicznie: budujemy roadmapy, modernizujemy środowisko, optymalizujemy koszty i ryzyko. Przygotowujemy plany DR/BCP i modele operacyjne." data-tech="ITIL,COBIT,TOGAF,FinOps,DR/BCP,CMDB,SLA/OLA" data-points="Strategia i roadmapy IT;Audyty i optymalizacja TCO/ROI;DR/BCP i ciągłość działania;Procesy ITIL/CMDB/SLA;Compliance i governance;Wsparcie zakupów i vendor management">
                 <div class="aspect-[16/9] overflow-hidden bg-gray-200">
-                    <img src="/assets/images/services/consulting.png" alt="Konsulting IT" class="w-full h-full object-contain bg-white">
+                    <img src="/assets/images/services/consulting.png" alt="Konsulting IT" class="w-full h-full object-cover">
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-semibold text-brand-navy-main mb-2">Konsulting IT</h3>
