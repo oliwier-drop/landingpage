@@ -1099,7 +1099,9 @@ function initAboutPage() {
     if (!slider || !viewport) return;
 
     // GUARD: inicjuj tylko raz
-    if (slider.dataset.initialized === 'true') return;
+    if (slider.dataset.initialized === 'true') {
+      return;
+    }
     slider.dataset.initialized = 'true';
 
     // --- konfiguracja ---
@@ -1107,20 +1109,41 @@ function initAboutPage() {
     const STEP_BY_VIEW = false; // true = przesuwa o cały "widok" (1/2/3 karty), false = o 1 kartę
 
     // --- stan ---
-    const originals = Array.from(slider.children);         // tylko oryginalne karty
+    // Pobierz tylko oryginalne karty (bez klonów jeśli jakieś już są)
+    const originals = Array.from(slider.children).filter(el => !el.dataset.clone);
     const originalCount = originals.length;
+    
     if (!originalCount) return;
 
-    // dobuduj head/tail (po jednym klonie)
-    const head = originals[originalCount - 1].cloneNode(true);
-    head.dataset.clone = 'head';
-    const tail = originals[0].cloneNode(true);
-    tail.dataset.clone = 'tail';
-    slider.insertBefore(head, slider.firstChild);
-    slider.appendChild(tail);
+    // Funkcja określająca ile kart jest widocznych jednocześnie
+    const getPerView = () => {
+      const w = window.innerWidth;
+      if (w < 640) return 1;
+      if (w < 1024) return 2;
+      return 3;
+    };
 
-    let cards = Array.from(slider.children);               // [cloneHead, ...originals, cloneTail]
-    let index = 1;                                         // start: 1 = pierwszy oryginał
+    // Klonuj wystarczającą liczbę kart dla infinite loop
+    // Potrzebujemy co najmniej tyle klonów ile widocznych kart
+    const cloneCount = Math.max(3, getPerView()); // minimum 3 klony dla bezpieczeństwa
+    
+    // Dodaj klony na początku (ostatnie X kart)
+    for (let i = 0; i < cloneCount; i++) {
+      const sourceIndex = originalCount - cloneCount + i;
+      const clone = originals[sourceIndex].cloneNode(true);
+      clone.dataset.clone = 'head';
+      slider.insertBefore(clone, slider.firstChild);
+    }
+    
+    // Dodaj klony na końcu (pierwsze X kart)
+    for (let i = 0; i < cloneCount; i++) {
+      const clone = originals[i].cloneNode(true);
+      clone.dataset.clone = 'tail';
+      slider.appendChild(clone);
+    }
+
+    let cards = Array.from(slider.children);               // [clones(head)..., ...originals, ...clones(tail)]
+    let index = cloneCount;                                // start: cloneCount = pierwszy oryginał
     let anim = null;
     let isAnimating = false;
 
@@ -1130,21 +1153,14 @@ function initAboutPage() {
       for (let i = 0; i < originalCount; i++) {
         const dot = document.createElement('div');
         dot.className = 'w-2 h-2 rounded-full bg-gray-600 cursor-pointer';
-        dot.addEventListener('click', () => goTo(i + 1));
+        dot.addEventListener('click', () => goTo(i + cloneCount)); // offset by cloneCount
         dotsWrap.appendChild(dot);
       }
     }
 
-    const getPerView = () => {
-      const w = window.innerWidth;
-      if (w < 640) return 1;
-      if (w < 1024) return 2;
-      return 3;
-    };
-
     const cardWidth = () => {
-      // łap szerokość "pierwszego realnego" elementu (index 1)
-      const firstReal = cards[1] || cards[0];
+      // łap szerokość "pierwszego realnego" elementu (index = cloneCount)
+      const firstReal = cards[cloneCount] || cards[0];
       const rect = firstReal.getBoundingClientRect();
       const gap = parseFloat(getComputedStyle(slider).columnGap || getComputedStyle(slider).gap || 0) || 16;
       return rect.width + gap;
@@ -1153,7 +1169,8 @@ function initAboutPage() {
     const activeDot = () => {
       if (!dotsWrap) return;
       const dots = dotsWrap.querySelectorAll(':scope > div');
-      const real = ((index - 1) % originalCount + originalCount) % originalCount;
+      // Wylicz realny indeks względem oryginalnych kart (bez klonów)
+      const real = ((index - cloneCount) % originalCount + originalCount) % originalCount;
       dots.forEach((d, i) => {
         if (i === real) { d.classList.remove('bg-gray-600'); d.classList.add('bg-brand-orange-main'); }
         else { d.classList.add('bg-gray-600'); d.classList.remove('bg-brand-orange-main'); }
@@ -1169,20 +1186,37 @@ function initAboutPage() {
     const goTo = (nextIndex) => {
       if (isAnimating) return;
       isAnimating = true;
-      const x = -nextIndex * cardWidth();
+      
+      // Zabezpieczenie przed wyjściem poza zakres
+      let targetIndex = nextIndex;
+      if (targetIndex > cards.length - 1) {
+        targetIndex = cards.length - 1;
+      } else if (targetIndex < 0) {
+        targetIndex = 0;
+      }
+      
+      const x = -targetIndex * cardWidth();
       if (anim) anim.kill();
       anim = gsap.to(slider, {
         x, duration: 0.35, ease: 'power2.out',
         onComplete() {
-          index = nextIndex;
-          // teleport na klonach, by utrzymać nieskończoną pętlę
-          if (index === cards.length - 1) { // cloneTail
-            index = 1;
+          index = targetIndex;
+          
+          // Struktura: [head clones (0...cloneCount-1)] [originals (cloneCount...cloneCount+originalCount-1)] [tail clones (cloneCount+originalCount...)]
+          
+          // Jeśli jesteśmy w tail clones (za ostatnim oryginałem)
+          if (index >= cloneCount + originalCount) {
+            // Przejdź do odpowiadającej karty w oryginałach
+            index = cloneCount + (index - (cloneCount + originalCount));
             jumpNoAnimate();
-          } else if (index === 0) {         // cloneHead
-            index = originalCount;
+          } 
+          // Jeśli jesteśmy w head clones (przed pierwszym oryginałem)
+          else if (index < cloneCount) {
+            // Przejdź do odpowiadającej karty w oryginałach (od końca)
+            index = cloneCount + originalCount - (cloneCount - index);
             jumpNoAnimate();
-          } else {
+          } 
+          else {
             activeDot();
           }
           isAnimating = false;
@@ -1261,7 +1295,7 @@ function initAboutPage() {
 
     // Bierzemy tylko oryginały – pomiń head/tail
     const originals = Array.from(slider.children)
-      .filter(el => !el.firstElementChild?.dataset?.clone);
+      .filter(el => !el.dataset?.clone);
 
     if (!originals.length) return;
 
