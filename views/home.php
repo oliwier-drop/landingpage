@@ -49,9 +49,9 @@
             O nas
         </h2>
         <!-- Content split into two columns -->
-        <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-stretch">
+        <div class="grid md:grid-cols-2 gap-12 lg:gap-16 items-end">
             <!-- Left side - Description -->
-            <div class="flex flex-col">
+            <div class="flex flex-col h-full">
                 <div class="space-y-6 mb-8">
                     <p class="text-lg text-brand-navy-main leading-relaxed">
                         Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2011 roku.
@@ -60,40 +60,44 @@
                         Nasza wiedza i doświadczenie pozwalają dostarczać najwyższej jakości rozwiązania technologiczne, które wspierają rozwój biznesu naszych klientów. Żadna branża nie jest nam obca.
                     </p>
                 </div>
-                <a href="/o-nas" class="animated-button mt-14">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24">
-                        <path
-                        d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
-                        ></path>
-                    </svg>
-                    <span class="text">Więcej o nas</span>
-                    <span class="circle"></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24">
-                        <path
-                        d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
-                        ></path>
-                    </svg>
-                </a>
+                
             </div>
             
             <!-- Right side - CEO Quote -->
-            <figure class="text-center">
+            <figure class="text-center flex flex-col h-full">
             <svg class="w-8 h-8 text-gray-400 dark:text-gray-600 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
                 <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z"/>
             </svg>
                 <blockquote>
                     <p class="text-xl lg:text-2xl italic font-medium text-brand-navy-main leading-relaxed">
-                        "Corpotech łączy wieloletnie doświadczenie z nowoczesnymi technologiami, dostarczając kompleksowe rozwiązania IT, które wspierają rozwój biznesu naszych klientów. Naszym priorytetem jest bezpieczeństwo, niezawodność i efektywność."
+                        "Bezpieczeństwo buduje zaufanie, otwartość tworzy relacje, a efektywność daje sens naszej pracy. W Corpotech współpraca to podstawa, bo prawdziwa innowacja zaczyna się od zrozumienia potrzeb człowieka.
                     </p>
                 </blockquote>
-                <figcaption class="flex items-center justify-center mt-8 space-x-3">
-                    
-                    <div class="flex items-center divide-x-2 divide-gray-300">
-                        <cite class="pe-4 font-semibold text-brand-navy-main">Robert Smarzyński</cite>
-                        <cite class="ps-4 text-sm text-gray-600">CEO & Członek Zarządu</cite>
-                    </div>
-                </figcaption>
+                
             </figure>
+        </div>
+    </div>
+    <!-- Shared bottom bar for button and author info -->
+    <div class="container px-4 mx-auto mt-4 mb-4">
+        <div class="flex items-baseline justify-between">
+            <a href="/o-nas" class="animated-button">
+                <svg xmlns="http://www.w3.org/2000/svg" class="arr-2" viewBox="0 0 24 24">
+                    <path
+                    d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                    ></path>
+                </svg>
+                <span class="text leading-none">Więcej o nas</span>
+                <span class="circle"></span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="arr-1" viewBox="0 0 24 24">
+                    <path
+                    d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+                    ></path>
+                </svg>
+            </a>
+            <div class="flex items-baseline divide-x-2 divide-gray-300">
+                <cite class="pe-4 font-semibold text-brand-navy-main leading-none">Robert Smarzyński</cite>
+                <cite class="ps-4 text-sm text-gray-600 leading-none">CEO & Członek zarządu</cite>
+            </div>
         </div>
     </div>
 </section>

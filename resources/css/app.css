@@ -50,6 +50,19 @@ body {
   overflow-x: hidden;
 }
 
+/* Remove tap highlight on mobile menu button */
+#mobile-menu-button {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+#mobile-menu-button:active {
+  background-color: transparent;
+  opacity: 1;
+}
+
+#mobile-menu-button:focus { outline: none; box-shadow: none !important; }
+
   #contact-cta {
     background: linear-gradient(to bottom, #000A2E 0%, #000000 100%);
   }
@@ -251,7 +264,7 @@ body {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 868px) {
   .container {
     padding: 0 4rem; /* 16 */
   }
@@ -300,10 +313,144 @@ body {
   display: block; /* brak „szarpnięcia" od line-height */
 }
 
+/* Team slider styles */
+#team-slider {
+  display: flex;
+  flex-wrap: nowrap;
+  will-change: transform;
+}
+
+/* Team Slider - Simplified & Responsive */
+#team-slider-viewport {
+  overflow: hidden;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+#team-slider {
+  display: flex;
+  gap: 1rem;
+  will-change: transform;
+  flex-wrap: nowrap;
+  align-items: stretch; /* Wyrównanie wysokości */
+}
+
+/* Każdy slide to kolumna, a sama karta wypełnia wysokość slajdu */
+#team-slider > div {
+  flex-shrink: 0;
+  display: flex;
+  box-sizing: border-box;
+}
+
+/* Karta wypełnia 100% wysokości slajdu */
+.team-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: var(--card-min-h, 440px);
+}
+
+/* Media z ustalonym stosunkiem */
+.team-card-media {
+  aspect-ratio: 16 / 9;
+}
+
+/* Treść wypełnia resztę i dopycha footer do dołu */
+.team-card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.team-card-footer {
+  margin-top: auto;
+}
+
+/* Ujednolicenie ilości tekstu – line clamp */
+.team-card-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.team-card-role {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.team-card-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Per-breakpoint minimalne wysokości */
+@media (max-width: 639px) {
+  #team-slider {
+    --card-min-h: 420px;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  #team-slider {
+    --card-min-h: 440px;
+  }
+}
+
+@media (min-width: 1024px) {
+  #team-slider {
+    --card-min-h: 460px;
+  }
+}
+
+/* Mobile: 1 karta - naturalne centrowanie przez padding */
+@media (max-width: 639px) {
+  #team-slider-viewport {
+    padding: 0 16px;
+  }
+  
+  #team-slider > div {
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
+/* Tablet: 2 karty */
+@media (min-width: 640px) and (max-width: 1023px) {
+  #team-slider-viewport {
+    padding: 0 1rem;
+  }
+  
+  #team-slider > div {
+    width: calc((100% - 1rem) / 2);
+    min-width: calc((100% - 1rem) / 2);
+  }
+}
+
+/* Desktop: 3 karty */
+@media (min-width: 1024px) {
+  #team-slider-viewport {
+    max-width: 1000px;
+    padding: 0 1rem;
+  }
+  
+  #team-slider > div {
+    width: calc((100% - 2rem) / 3);
+    min-width: calc((100% - 2rem) / 3);
+  }
+}
+
 /* Services Section */
 .services-section {
   position: relative;
   z-index: 2;
+  overflow-x: hidden;
 }
 
 /* Services Horizontal Scroll Animation */
@@ -462,6 +609,8 @@ body {
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 2;
 }
 
 .pContent-right {
@@ -517,6 +666,9 @@ body {
   right: 0;
 }
 
+/* Lift the first (right) project image so text overlays slightly */
+.pSection-right .pImage-right { top: -60px; }
+
 .pImage-left {
   left: 0;
 }
@@ -524,36 +676,119 @@ body {
 
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
-  .panel-content {
+@media (max-width: 640px) { 
+  .back-to-top-button { bottom: 16px; right: 16px; }
+  
+  /* Stack container vertically, but keep author row first and button second */
+  #about .container > div[class*="justify-between"] {
     flex-direction: column;
-    padding: 2rem;
-    text-align: center;
+    align-items: center;
+    gap: 20px;
   }
 
-  .service-visual {
-    height: 200px;
-    margin-top: 2rem;
+  /* Author block first */
+  #about .container > div[class*="justify-between"] > div[class*="divide-x"] {
+    order: 1;
+    display: flex;
+    flex-direction: row; /* name and title side-by-side */
+    align-items: center;
+    gap: 8px;
   }
 
-  .brand-logo {
-    width: 100px;
-    height: 80px;
-    padding: 4px;
+  /* Button second */
+  #about .container > div[class*="justify-between"] > a.animated-button {
+    order: 2;
   }
 
-  .brand-logo img {
-    max-height: 3rem;
-    max-width: 4rem;
+  /* Remove previous vertical stacking overrides */
+  #about .container > div[class*="justify-between"] > div[class*="divide-x"] cite {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
-
 }
+@media (max-width: 868px) {
+  .services-horizontal-container { width: 100%; height: auto; flex-direction: column; }
+  .service-panel { width: 100%; height: auto; min-height: 80vh; }
+  .panel-content { flex-direction: column; padding: 2rem; text-align: center; }
 
+  /* Brand logos: grid instead of absolute positions */
+  .service-visual { height: auto; min-height: 280px; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-top: 1rem; }
+  .brand-logo { position: relative; width: 100%; height: 72px; padding: 6px; }
+  .brand-logo img { max-height: 2.5rem; max-width: 100%; }
+  .cybersecurity-visual .logo-1,
+  .cybersecurity-visual .logo-2,
+  .cybersecurity-visual .logo-3,
+  .cybersecurity-visual .logo-4,
+  .cybersecurity-visual .logo-5,
+  .consulting-visual .logo-1,
+  .consulting-visual .logo-2,
+  .consulting-visual .logo-3,
+  .consulting-visual .logo-4,
+  .datacenter-visual .logo-1,
+  .datacenter-visual .logo-2,
+  .datacenter-visual .logo-3,
+  .datacenter-visual .logo-4,
+  .networking-visual .logo-1,
+  .networking-visual .logo-2,
+  .networking-visual .logo-3,
+  .networking-visual .logo-4 { top: auto; right: auto; bottom: auto; left: auto; transform: none; }
+
+  /* About / Projects */
+  /* Note: Don't override height for #about during animation - GSAP controls it */
+  .pSection { padding-top: 120px; padding-bottom: 120px; margin-bottom: 80px; }
+  .pContent { width: 100%; padding: 24px; }
+  .pImage { position: static; width: 100%; max-height: none; margin-top: 16px; }
+  
+  /* Responsive spacing for About section during animation on medium screens */
+  #about { 
+    padding-top: 32px; 
+    padding-bottom: 32px; 
+  }
+  #about .container { padding-left: 1rem; padding-right: 1rem; }
+  #about h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1.5rem; }
+  #about p { font-size: clamp(0.875rem, 2vw, 1.125rem); }
+}
+@media (max-height: 700px) {
+  /* On low-height screens, stack About columns and adjust spacing */
+  #about { 
+    padding-top: 24px; 
+    padding-bottom: 24px; 
+  }
+  #about .grid { display: grid; grid-template-columns: 1fr !important; gap: 20px; }
+  #about h2 { margin-bottom: 1rem; font-size: clamp(1.75rem, 4vw, 2.5rem); }
+  #about figure { margin-top: 8px; }
+  #about blockquote p { font-size: clamp(0.875rem, 2vw, 1rem); }
+}
+@media (max-width: 639px), (max-height: 579px) {
+  /* Extra responsive adjustments for very small screens during animation */
+  #about { 
+    padding-top: 20px; 
+    padding-bottom: 20px; 
+  }
+  #about .container { padding-left: 0.75rem; padding-right: 0.75rem; }
+  #about h2 { 
+    font-size: clamp(1.5rem, 6vw, 2rem); 
+    margin-bottom: 0.75rem; 
+    line-height: 1.2;
+  }
+  #about p { 
+    font-size: 0.875rem; 
+    line-height: 1.6; 
+    margin-bottom: 0.75rem;
+  }
+  #about .grid { gap: 16px; }
+  #about figure { margin-top: 0; }
+  #about blockquote p { 
+    font-size: 0.875rem; 
+    line-height: 1.5;
+  }
+}
 /* Stack hero-about styles */
 .stack-hero-about { 
   position: relative; 
 }
 
+/* Desktop: animation styles */
 #hero-pin, #about { 
   min-height: 100vh; 
   position: relative; 
@@ -565,6 +800,38 @@ body {
 
 #about { 
   z-index: 2; 
+  overflow-y: visible; /* Allow content to be fully visible */
+}
+
+/* During animation on desktop, allow scrolling within about section if needed */
+#about[style*="position: absolute"] {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile/Tablet: disable animation styles, use normal flow */
+@media (max-width: 867px), (max-height: 699px) {
+  .stack-hero-about {
+    position: relative;
+    height: auto !important; /* Reset any GSAP height */
+  }
+  
+  #about {
+    position: static !important; /* Normal flow on mobile */
+    min-height: auto !important; /* No fixed height */
+    height: auto !important;
+    overflow-y: visible !important;
+    transform: none !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: auto !important;
+  }
+  
+  #hero-pin {
+    min-height: 100vh; /* Hero still full height */
+    position: relative;
+  }
 }
 
 

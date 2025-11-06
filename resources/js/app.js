@@ -47,48 +47,42 @@ function init() {
   const mainHeader    = document.getElementById('main-header')
 
   if (logoOverlay && animatedLogo && logoContainer && mainContent && mainHeader) {
+    const headerLogoContainer = document.getElementById('header-logo-slot')
+
     gsap.set(animatedLogo, { filter: 'grayscale(100%)', scale: 1, y: 0 })
     gsap.set(mainContent, { opacity: 0 })
     gsap.set(mainHeader, { opacity: 0 })
 
-    // Oblicz pozycję docelową w nawigacji przed rozpoczęciem animacji
-    const headerLogoContainer = document.getElementById('header-logo-slot')
+    // Oblicz pozycję docelową w nawigacji
     let targetX = 0
     let targetY = 0
-    
     if (headerLogoContainer) {
       const headerRect = headerLogoContainer.getBoundingClientRect()
       const overlayRect = logoOverlay.getBoundingClientRect()
-      
-      // Oblicz różnicę pozycji
-      targetX = (headerRect.left + headerRect.width/2) - (overlayRect.left + overlayRect.width/2)
-      targetY = (headerRect.top + headerRect.height/2) - (overlayRect.top + overlayRect.height/2)
+      targetX = (headerRect.left + headerRect.width / 2) - (overlayRect.left + overlayRect.width / 2)
+      targetY = (headerRect.top + headerRect.height / 2) - (overlayRect.top + overlayRect.height / 2)
     }
 
-    // Animacja logo - najpierw kolor i scale, potem płynne przejście do nawigacji
+    const computeTarget = () => {
+      const header = document.getElementById('header-logo-slot')
+      if (!header) return { x: 0, y: 0 }
+      const headerRect = header.getBoundingClientRect()
+      const overlayRect = logoOverlay.getBoundingClientRect()
+      return {
+        x: (headerRect.left + headerRect.width / 2) - (overlayRect.left + overlayRect.width / 2),
+        y: (headerRect.top + headerRect.height / 2) - (overlayRect.top + overlayRect.height / 2)
+      }
+    }
+
     logoTimeline
-      .to(animatedLogo, { 
-        duration: 1.2, 
-        filter: 'grayscale(0%)', 
-        scale: 1.1,
-        ease: 'power2.out' 
-      })
-      .to(mainContent, { 
-        duration: 1, 
-        opacity: 1, 
-        ease: 'power2.out' 
-      }, '-=0.8')
-      .to(mainHeader, { 
-        duration: 0.8, 
-        opacity: 1, 
-        ease: 'power2.out' 
-      }, '-=0.8')
-      // Płynne przejście logo do pozycji w nawigacji
+      .to(animatedLogo, { duration: 1.2, filter: 'grayscale(0%)', scale: 1.1, ease: 'power2.out' })
+      .to(mainContent, { duration: 1, opacity: 1, ease: 'power2.out' }, '-=0.8')
+      .to(mainHeader, { duration: 0.8, opacity: 1, ease: 'power2.out' }, '-=0.8')
       .to(animatedLogo, {
         duration: 1.5,
-        scale: 0.5, // h-32 (128px) -> h-16 (64px) = 0.5
-        x: targetX, // przesuń do pozycji X nawigacji
-        y: targetY, // przesuń do pozycji Y nawigacji
+        scale: 0.5,
+        x: () => computeTarget().x,
+        y: () => computeTarget().y,
         ease: 'power2.inOut'
       }, '-=0.5')
       .to(logoOverlay, {
@@ -98,29 +92,18 @@ function init() {
         onComplete: () => {
           const headerLogoContainer = document.getElementById('header-logo-slot')
           if (headerLogoContainer && animatedLogo) {
-            // Tworzenie linku do strony głównej
             const logoLink = document.createElement('a')
             logoLink.href = '/'
             logoLink.className = 'block transition-transform duration-300 hover:scale-105'
-            
-            // Resetowanie stylów logo do finalnej pozycji w nawigacji
             animatedLogo.style.transform = ''
             animatedLogo.style.filter = ''
             animatedLogo.style.opacity = '1'
             animatedLogo.className = 'h-16'
-            
-            // Dodanie logo do linku
             logoLink.appendChild(animatedLogo)
-            
-            // Wstawienie linku do kontenera
             headerLogoContainer.innerHTML = ''
             headerLogoContainer.appendChild(logoLink)
-            
             ScrollTrigger.refresh()
-            // Powiadom o zakończeniu intro na stronie głównej
-            try {
-              document.dispatchEvent(new CustomEvent('corpotech:logoIntroFinished'))
-            } catch (_) {}
+            try { document.dispatchEvent(new CustomEvent('corpotech:logoIntroFinished')) } catch (_) {}
           }
         }
       }, '-=0.5')
@@ -293,14 +276,42 @@ onReady(initServicesAnimations)
 // Usunięto initContactCTAAnimations() - elementy nie istnieją na stronie kontaktowej
 
 // Hero pinned; About slides up proportionally to scroll
+// Only on desktop/large screens - on mobile/tablet use normal grid layout
 function initAbout() {
   const stack = document.querySelector('.stack-hero-about');
   const about = document.getElementById('about');
-  
+
   if (!stack || !about) {
     return;
   }
 
+  // Disable animation on mobile/tablet - use normal layout instead
+  if (window.innerWidth < 868 || window.innerHeight < 700) {
+    // On small screens, ensure about section uses normal flow
+    // Clear all GSAP transforms and inline styles
+    gsap.set(about, { 
+      clearProps: "all",
+      yPercent: 0,
+      xPercent: 0,
+      transform: "none",
+      position: "static",
+      top: "auto",
+      left: "auto",
+      right: "auto",
+      width: "auto",
+      height: "auto"
+    });
+    gsap.set(stack, { 
+      clearProps: "all",
+      height: "auto"
+    });
+    // Also clear inline styles directly
+    about.style.cssText = '';
+    stack.style.cssText = '';
+    return; // Exit - no animation on mobile
+  }
+
+  // Desktop only: Animation with pinning
   // start: about pod ekranem
   gsap.set(about, { 
     yPercent: 100,
@@ -309,11 +320,11 @@ function initAbout() {
     left: 0,
     right: 0,
     width: '100%',
-    height: '90vh'  // Explicit wysokość
+    height: '90vh'  // Fixed height on desktop
   });
   
   // Ustaw wysokość całego stack
-  gsap.set(stack, { height: '180vh' }); // hero (100vh) + about (80vh)
+  gsap.set(stack, { height: '180vh' }); // hero (100vh) + about (90vh)
 
   // pinujemy wrapper, nie hero
   const dur = () => window.innerHeight; // 100% viewportu = 1 ekran
@@ -334,14 +345,34 @@ function initAbout() {
   tl.to(about, { 
     yPercent: 0,
     duration: 1,  // 100% viewportu - cała strona zasłania hero
-    onComplete: () => {
-      console.log('About animation completed, yPercent:', about.style.transform);
-    }
   }, 0);
 
   // po inicjalizacji
   ScrollTrigger.refresh();
 }
+
+// Re-run on resize to handle mobile/desktop switch
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    const stack = document.querySelector('.stack-hero-about');
+    const about = document.getElementById('about');
+    if (stack && about) {
+      // Kill existing ScrollTriggers for this section
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.vars && trigger.vars.trigger === stack) {
+          trigger.kill();
+        }
+      });
+      // Clear any GSAP animations
+      gsap.killTweensOf(about);
+      gsap.killTweensOf(stack);
+      // Re-initialize
+      initAbout();
+    }
+  }, 250);
+});
 
 onReady(initAbout)
 
@@ -409,6 +440,80 @@ function initHeaderBackground() {
 
 onReady(initHeaderBackground)
 
+// Mobile menu toggle
+function initMobileMenu() {
+  const button = document.getElementById('mobile-menu-button')
+  const panel = document.getElementById('mobile-menu')
+  const header = document.getElementById('main-header')
+  if (!button || !panel) return
+
+  let headerState = null
+
+  const solidHeader = () => {
+    if (!header) return
+    if (!headerState) {
+      headerState = {
+        backgroundColor: header.style.backgroundColor || '',
+        backdropFilter: header.style.backdropFilter || ''
+      }
+    }
+    header.style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
+    header.style.backdropFilter = 'blur(10px)'
+  }
+
+  const restoreHeader = () => {
+    if (!header || !headerState) return
+    header.style.backgroundColor = headerState.backgroundColor
+    header.style.backdropFilter = headerState.backdropFilter
+    headerState = null
+  }
+
+  const open = () => {
+    panel.classList.remove('hidden')
+    button.setAttribute('aria-expanded', 'true')
+    document.body.style.overflow = 'hidden'
+    solidHeader()
+    if (header) {
+      const headerHeight = header.getBoundingClientRect().height || 80
+      panel.style.paddingTop = `${headerHeight + 24}px`
+    }
+    try {
+      gsap.fromTo(panel, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2, ease: 'power2.out' })
+    } catch (_) {}
+  }
+
+  const close = () => {
+    try {
+      gsap.to(panel, { autoAlpha: 0, duration: 0.2, ease: 'power2.out', onComplete: () => {
+        panel.classList.add('hidden')
+        button.setAttribute('aria-expanded', 'false')
+        document.body.style.overflow = ''
+        panel.style.paddingTop = ''
+        restoreHeader()
+      } })
+    } catch (_) {
+      panel.classList.add('hidden')
+      button.setAttribute('aria-expanded', 'false')
+      document.body.style.overflow = ''
+      panel.style.paddingTop = ''
+      restoreHeader()
+    }
+  }
+
+  const toggle = () => {
+    if (panel.classList.contains('hidden')) open(); else close()
+  }
+
+  button.addEventListener('click', toggle)
+  panel.addEventListener('click', (e) => {
+    const link = e.target.closest('a')
+    if (link) close()
+  })
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') close() })
+}
+
+onReady(initMobileMenu)
+
 // Back to Top Button
 function initBackToTop() {
   const backToTopButton = document.getElementById('back-to-top')
@@ -418,21 +523,28 @@ function initBackToTop() {
     const heroPin = document.getElementById('hero-pin')
     const heroSubpage = document.getElementById('hero-subpage')
     
-    let triggerElement = heroPin || heroSubpage
-    
-    if (triggerElement) {
-      // Show/hide button based on scroll position
+    const setupScrollTrigger = (triggerElement) => {
+      if (!triggerElement) return
       ScrollTrigger.create({
         trigger: triggerElement,
         start: 'bottom top',
         end: 'bottom top',
-        onEnter: () => {
-          backToTopButton.classList.add('show')
-        },
-        onLeaveBack: () => {
-          backToTopButton.classList.remove('show')
-        }
+        onEnter: () => backToTopButton.classList.add('show'),
+        onLeaveBack: () => backToTopButton.classList.remove('show')
       })
+    }
+
+    if (heroPin) {
+      // On homepage: delay initialization until intro overlay finishes
+      backToTopButton.classList.remove('show')
+      const onIntroDone = () => {
+        setupScrollTrigger(heroPin)
+        // If user has already scrolled past the trigger before intro finished, ensure correct state
+        ScrollTrigger.refresh()
+      }
+      document.addEventListener('corpotech:logoIntroFinished', onIntroDone, { once: true })
+    } else if (heroSubpage) {
+      setupScrollTrigger(heroSubpage)
     } else {
       // Fallback: show button after scrolling down 300px
       window.addEventListener('scroll', () => {
@@ -671,106 +783,49 @@ function initPartnersFadeWithIO() {
 
 // Services horizontal scroll animation
 function initServicesHorizontalScroll() {
-  const panels = gsap.utils.toArray(".service-panel");
-  
-  // szerokość przewinięcia = (liczba paneli - 1) * 100% szerokości
-  const totalX = -100 * (panels.length - 1);
-  
-  // Main horizontal scroll animation
-  const scrollTween = gsap.to(panels, {
-    xPercent: totalX,
-    ease: "none",
-    scrollTrigger: {
-      trigger: ".services-section",
-      pin: true,
-      scrub: 0.1,
-      end: () => "+=" + (window.innerWidth * (panels.length - 1)), // dynamicznie
-      markers: false,
-      anticipatePin: 1,
-      invalidateOnRefresh: true
-    }
-  });
-
-  // Brand logos animations for each panel
-  panels.forEach((panel, index) => {
-    const logos = panel.querySelectorAll('.brand-logo');
-    
-    // Animate brand logos
-    logos.forEach((logo, logoIndex) => {
-      gsap.fromTo(logo, 
-        { 
-          y: 50,
-          opacity: 0,
-          scale: 0.9
-        },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: logo,
-            containerAnimation: scrollTween,
-            start: "left 90%",
-            toggleActions: "play none none reset"
-          }
+  // Disable horizontal scroll animation on small screens to prevent overflow
+  ScrollTrigger.matchMedia({
+    "(min-width: 1024px)": () => {
+      const panels = gsap.utils.toArray('.service-panel');
+      if (!panels.length) return;
+      const totalX = -100 * (panels.length - 1);
+      const scrollTween = gsap.to(panels, {
+        xPercent: totalX,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.services-section',
+          pin: true,
+          scrub: 0.1,
+          end: () => '+=' + (window.innerWidth * (panels.length - 1)),
+          markers: false,
+          anticipatePin: 1,
+          invalidateOnRefresh: true
         }
-      );
-      
-      // Subtle breathing animation
-      gsap.to(logo, {
-        scale: 1.05,
-        duration: 3 + logoIndex * 0.3,
-        ease: "power2.inOut",
-        yoyo: true,
-        repeat: -1
       });
-    });
-    
-    // Panel content animation - different for first panel (cybersecurity)
-    const serviceInfo = panel.querySelector('.service-info');
-    const isFirstPanel = index === 0; // First panel is cybersecurity
-    
-    if (isFirstPanel) {
-      // First panel: independent vertical trigger (no containerAnimation)
-      gsap.fromTo(serviceInfo,
-        {
-          y: -100,
-          opacity: 0
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: panel,
-            start: "top 60%",
-            toggleActions: "play none none reset"
-          }
+
+      panels.forEach((panel, index) => {
+        const logos = panel.querySelectorAll('.brand-logo');
+        logos.forEach((logo, logoIndex) => {
+          gsap.fromTo(logo,
+            { y: 50, opacity: 0, scale: 0.9 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'power2.out',
+              scrollTrigger: { trigger: logo, containerAnimation: scrollTween, start: 'left 90%', toggleActions: 'play none none reset' } }
+          );
+          gsap.to(logo, { scale: 1.05, duration: 3 + logoIndex * 0.3, ease: 'power2.inOut', yoyo: true, repeat: -1 });
+        });
+
+        const serviceInfo = panel.querySelector('.service-info');
+        const isFirstPanel = index === 0;
+        if (isFirstPanel) {
+          gsap.fromTo(serviceInfo, { y: -100, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power2.out', scrollTrigger: { trigger: panel, start: 'top 60%', toggleActions: 'play none none reset' } });
+        } else {
+          gsap.fromTo(serviceInfo, { x: -100, opacity: 0 }, { x: 0, opacity: 1, duration: 1, ease: 'power2.out', scrollTrigger: { trigger: panel, containerAnimation: scrollTween, start: 'left 90%', toggleActions: 'play none none reset' } });
         }
-      );
-    } else {
-      // Other panels: horizontal scroll with containerAnimation
-      gsap.fromTo(serviceInfo,
-        {
-          x: -100,
-          opacity: 0
-        },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: panel,
-            containerAnimation: scrollTween,
-            start: "left 90%",
-            toggleActions: "play none none reset"
-          }
-        }
-      );
+      });
+    },
+    "(max-width: 1023px)": () => {
+      // Ensure no horizontal overflow on mobile
+      try { gsap.set(document.documentElement, { overflowX: 'hidden' }); gsap.set(document.body, { overflowX: 'hidden' }); } catch(_) {}
     }
   });
 }
@@ -954,34 +1009,30 @@ function initAboutPage() {
   const slider = document.getElementById('team-slider');
   const prevBtn = document.getElementById('prev-btn');
   const nextBtn = document.getElementById('next-btn');
-  const dots = document.querySelectorAll('.flex.space-x-2 > div');
+  const dotsContainer = document.querySelector('.flex.space-x-2');
   const navControls = document.querySelector('.flex.justify-center.items-center.mt-8');
   
   if (!slider || !prevBtn || !nextBtn) return;
   
-  // Count original cards before cloning (only cards with min-w-[300px] class)
-  const originalCardsCount = slider.querySelectorAll('.min-w-\\[300px\\]').length;
+  // Count original cards - use direct children count
+  const originalCardsCount = slider.children.length;
+  let sliderInitialized = false;
   
   // Generate dots dynamically based on number of cards
-  const dotsContainer = document.querySelector('.flex.space-x-2');
-  if (dotsContainer && originalCardsCount > dots.length) {
-    // Remove existing dots
+  if (dotsContainer) {
     dotsContainer.innerHTML = '';
-    // Generate new dots based on actual card count
+    // Generate dots based on actual card count
     for (let i = 0; i < originalCardsCount; i++) {
       const dot = document.createElement('div');
-      dot.className = i === 0 ? 'w-2 h-2 bg-brand-orange-main rounded-full' : 'w-2 h-2 bg-gray-600 rounded-full';
+      dot.className = i === 0 ? 'w-2 h-2 bg-brand-orange-main rounded-full cursor-pointer' : 'w-2 h-2 bg-gray-600 rounded-full cursor-pointer';
       dotsContainer.appendChild(dot);
     }
   }
   
-  // Re-select dots after generating them
-  const updatedDots = document.querySelectorAll('.flex.space-x-2 > div');
-  
   // Team cards fade in animation with onComplete callback
-  const originalTeamCards = document.querySelectorAll('#team-slider > div');
+  const originalTeamCards = Array.from(slider.children);
   if (originalTeamCards.length) {
-    const cardsToAnimate = Array.from(originalTeamCards);
+    const cardsToAnimate = originalTeamCards;
     
     // Set initial state for navigation controls
     if (navControls) {
@@ -996,16 +1047,7 @@ function initAboutPage() {
         toggleActions: "play none none none"
       },
       onComplete: function() {
-        // Clone all cards to create infinite loop
-        const originalCards = Array.from(slider.children);
-        originalCards.forEach(card => {
-          const clone = card.cloneNode(true);
-          gsap.set(clone, { opacity: 1, y: 0 });
-          slider.appendChild(clone);
-        });
-        
-        // Initialize slider functionality immediately
-        initSliderFunctionality();
+        initializeSlider();
       }
     });
     
@@ -1030,142 +1072,281 @@ function initAboutPage() {
       }, "-=0.3"); // Start slightly before cards finish (overlap)
     }
     
-    // Start slider initialization after a short delay (faster than waiting for full animation)
+    // Initialize slider after a short delay as fallback
     setTimeout(() => {
-      if (!slider.querySelector('.min-w-\\[300px\\]').nextElementSibling) {
-        // Clone all cards to create infinite loop
-        const originalCards = Array.from(slider.children);
-        originalCards.forEach(card => {
-          const clone = card.cloneNode(true);
-          gsap.set(clone, { opacity: 1, y: 0 });
-          slider.appendChild(clone);
-        });
-        
-        // Initialize slider functionality
-        initSliderFunctionality();
+      if (!sliderInitialized) {
+        initializeSlider();
       }
-    }, 100); // Start after 200ms instead of waiting for full animation
+    }, 300);
   }
   
-  // Slider functionality
-  function initSliderFunctionality() {
-    let currentIndex = 0;
-    // Use the original cards count (before cloning)
-    const totalCards = originalCardsCount;
-    // Re-select dots in case they were regenerated
-    const dots = document.querySelectorAll('.flex.space-x-2 > div');
-    const cardsPerView = 3;
-    const cardWidth = 300 + 32;
+  // Initialize slider (clone cards and setup functionality)
+  function initializeSlider() {
+    if (sliderInitialized) return;
+    
+    // Nie klonujemy tutaj - initTeamSlider() tworzy tylko 2 klony (head i tail)
+    sliderInitialized = true;
+    initTeamSlider();
+  }
+  
+  // Team Slider - Full featured with autoplay, swipe, and accessibility
+  function initTeamSlider() {
+    const slider = document.getElementById('team-slider');
+    const viewport = document.getElementById('team-slider-viewport') || slider?.parentElement;
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const dotsWrap = document.getElementById('team-dots');
+    if (!slider || !viewport) return;
+
+    // GUARD: inicjuj tylko raz
+    if (slider.dataset.initialized === 'true') {
+      return;
+    }
+    slider.dataset.initialized = 'true';
+
+    // --- konfiguracja ---
+    const AUTOPLAY_MS = 3000; // czas między krokami
+    const STEP_BY_VIEW = false; // true = przesuwa o cały "widok" (1/2/3 karty), false = o 1 kartę
+
+    // --- stan ---
+    // Pobierz tylko oryginalne karty (bez klonów jeśli jakieś już są)
+    const originals = Array.from(slider.children).filter(el => !el.dataset.clone);
+    const originalCount = originals.length;
+    
+    if (!originalCount) return;
+
+    // Funkcja określająca ile kart jest widocznych jednocześnie
+    const getPerView = () => {
+      const w = window.innerWidth;
+      if (w < 640) return 1;
+      if (w < 1024) return 2;
+      return 3;
+    };
+
+    // Klonuj wystarczającą liczbę kart dla infinite loop
+    // Potrzebujemy co najmniej tyle klonów ile widocznych kart
+    const cloneCount = Math.max(3, getPerView()); // minimum 3 klony dla bezpieczeństwa
+    
+    // Dodaj klony na początku (ostatnie X kart)
+    for (let i = 0; i < cloneCount; i++) {
+      const sourceIndex = originalCount - cloneCount + i;
+      const clone = originals[sourceIndex].cloneNode(true);
+      clone.dataset.clone = 'head';
+      slider.insertBefore(clone, slider.firstChild);
+    }
+    
+    // Dodaj klony na końcu (pierwsze X kart)
+    for (let i = 0; i < cloneCount; i++) {
+      const clone = originals[i].cloneNode(true);
+      clone.dataset.clone = 'tail';
+      slider.appendChild(clone);
+    }
+
+    let cards = Array.from(slider.children);               // [clones(head)..., ...originals, ...clones(tail)]
+    let index = cloneCount;                                // start: cloneCount = pierwszy oryginał
+    let anim = null;
     let isAnimating = false;
-    let currentAnimation = null;
-    
-    gsap.set(slider, { x: 0 });
-    
-    function updateSlider(isInstant = false) {
-      // Normalize currentIndex to handle loops
-      if (currentIndex >= totalCards) {
-        // We're on clones - adjust position
-        const cloneOffset = currentIndex - totalCards;
-        const translateX = -(totalCards * cardWidth + cloneOffset * cardWidth);
-        
-        if (isInstant) {
-          gsap.set(slider, { x: translateX });
-          // Reset to equivalent original position
-          currentIndex = cloneOffset;
-          gsap.set(slider, { x: -currentIndex * cardWidth });
-        } else {
-          isAnimating = true;
-          currentAnimation = gsap.to(slider, {
-            x: translateX,
-            duration: 0.3,
-            ease: "power2.out",
-            onComplete: function() {
-              // After reaching clone, instantly jump to equivalent original position (invisible to user)
-              const originalIndex = cloneOffset;
-              gsap.set(slider, { x: -originalIndex * cardWidth });
-              currentIndex = originalIndex;
-              isAnimating = false;
-              currentAnimation = null;
-              
-              // Update dots after reset
-              dots.forEach((dot, index) => {
-                dot.classList.remove('bg-brand-orange-main');
-                dot.classList.add('bg-gray-600');
-              });
-              if (dots[originalIndex]) {
-                dots[originalIndex].classList.remove('bg-gray-600');
-                dots[originalIndex].classList.add('bg-brand-orange-main');
-              }
-            }
-          });
-        }
-      } else {
-        const translateX = -currentIndex * cardWidth;
-        
-        if (isInstant) {
-          gsap.set(slider, { x: translateX });
-        } else {
-          isAnimating = true;
-          currentAnimation = gsap.to(slider, {
-            x: translateX,
-            duration: 0.3,
-            ease: "power2.out",
-            onComplete: function() {
-              isAnimating = false;
-              currentAnimation = null;
-            }
-          });
-        }
+
+    // kropki (auto-generate)
+    if (dotsWrap) {
+      dotsWrap.innerHTML = '';
+      for (let i = 0; i < originalCount; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'w-2 h-2 rounded-full bg-gray-600 cursor-pointer';
+        dot.addEventListener('click', () => goTo(i + cloneCount)); // offset by cloneCount
+        dotsWrap.appendChild(dot);
       }
-      
-      const actualCardIndex = currentIndex % totalCards;
-      dots.forEach((dot, index) => {
-        dot.classList.remove('bg-brand-orange-main');
-        dot.classList.add('bg-gray-600');
+    }
+
+    const cardWidth = () => {
+      // łap szerokość "pierwszego realnego" elementu (index = cloneCount)
+      const firstReal = cards[cloneCount] || cards[0];
+      const rect = firstReal.getBoundingClientRect();
+      const gap = parseFloat(getComputedStyle(slider).columnGap || getComputedStyle(slider).gap || 0) || 16;
+      return rect.width + gap;
+    };
+
+    const activeDot = () => {
+      if (!dotsWrap) return;
+      const dots = dotsWrap.querySelectorAll(':scope > div');
+      // Wylicz realny indeks względem oryginalnych kart (bez klonów)
+      const real = ((index - cloneCount) % originalCount + originalCount) % originalCount;
+      dots.forEach((d, i) => {
+        if (i === real) { d.classList.remove('bg-gray-600'); d.classList.add('bg-brand-orange-main'); }
+        else { d.classList.add('bg-gray-600'); d.classList.remove('bg-brand-orange-main'); }
       });
-      if (dots[actualCardIndex]) {
-        dots[actualCardIndex].classList.remove('bg-gray-600');
-        dots[actualCardIndex].classList.add('bg-brand-orange-main');
-      }
-    }
-    
-    function nextSlide() {
-      if (isAnimating) return; // Prevent multiple animations
+    };
+
+    const jumpNoAnimate = () => {
+      const x = -index * cardWidth();
+      gsap.set(slider, { x });
+      activeDot();
+    };
+
+    const goTo = (nextIndex) => {
+      if (isAnimating) return;
+      isAnimating = true;
       
-      currentIndex++;
-      updateSlider();
-    }
-    
-    function prevSlide() {
-      if (isAnimating) return; // Prevent multiple animations
-      
-      currentIndex--;
-      
-      if (currentIndex < 0) {
-        // Jump to clone position at the end
-        currentIndex = totalCards * 2 - 1;
+      // Zabezpieczenie przed wyjściem poza zakres
+      let targetIndex = nextIndex;
+      if (targetIndex > cards.length - 1) {
+        targetIndex = cards.length - 1;
+      } else if (targetIndex < 0) {
+        targetIndex = 0;
       }
       
-      updateSlider();
-    }
-    
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        currentIndex = index;
-        updateSlider();
+      const x = -targetIndex * cardWidth();
+      if (anim) anim.kill();
+      anim = gsap.to(slider, {
+        x, duration: 0.35, ease: 'power2.out',
+        onComplete() {
+          index = targetIndex;
+          
+          // Struktura: [head clones (0...cloneCount-1)] [originals (cloneCount...cloneCount+originalCount-1)] [tail clones (cloneCount+originalCount...)]
+          
+          // Jeśli jesteśmy w tail clones (za ostatnim oryginałem)
+          if (index >= cloneCount + originalCount) {
+            // Przejdź do odpowiadającej karty w oryginałach
+            index = cloneCount + (index - (cloneCount + originalCount));
+            jumpNoAnimate();
+          } 
+          // Jeśli jesteśmy w head clones (przed pierwszym oryginałem)
+          else if (index < cloneCount) {
+            // Przejdź do odpowiadającej karty w oryginałach (od końca)
+            index = cloneCount + originalCount - (cloneCount - index);
+            jumpNoAnimate();
+          } 
+          else {
+            activeDot();
+          }
+          isAnimating = false;
+        }
       });
+    };
+
+    const step = () => (STEP_BY_VIEW ? getPerView() : 1);
+    const next = () => goTo(index + step());
+    const prev = () => goTo(index - step());
+
+    // autoplay z poszanowaniem prefers-reduced-motion i widoczności strony
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let timer = reduce ? null : setInterval(next, AUTOPLAY_MS);
+
+    const pause = () => { if (timer) { clearInterval(timer); timer = null; } };
+    const resume = () => { if (!timer && !reduce) { timer = setInterval(next, AUTOPLAY_MS); } };
+
+    const holder = slider.closest('.relative') || viewport;
+    holder.addEventListener('mouseenter', pause);
+    holder.addEventListener('mouseleave', resume);
+    holder.addEventListener('touchstart', pause, { passive: true });
+    holder.addEventListener('touchend', resume, { passive: true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) pause(); else resume();
+    });
+
+    // przyciski
+    prevBtn?.addEventListener('click', prev);
+    nextBtn?.addEventListener('click', next);
+
+    // swipe/drag (opcjonalny, lekki)
+    let startX = 0, deltaX = 0, dragging = false;
+    const onDown = (e) => { dragging = true; startX = (e.touches?.[0]?.clientX ?? e.clientX); deltaX = 0; pause(); };
+    const onMove = (e) => {
+      if (!dragging) return;
+      const x = (e.touches?.[0]?.clientX ?? e.clientX);
+      deltaX = x - startX;
+      gsap.set(slider, { x: -index * cardWidth() + deltaX });
+    };
+    const onUp = () => {
+      if (!dragging) return;
+      dragging = false;
+      const threshold = Math.max(40, cardWidth() * 0.15);
+      if (deltaX > threshold) prev();
+      else if (deltaX < -threshold) next();
+      else gsap.to(slider, { x: -index * cardWidth(), duration: 0.2, ease: 'power2.out' });
+      resume();
+    };
+    viewport.addEventListener('mousedown', onDown);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    viewport.addEventListener('touchstart', onDown, { passive: true });
+    viewport.addEventListener('touchmove', onMove, { passive: true });
+    viewport.addEventListener('touchend', onUp, { passive: true });
+
+    // stabilny resize (ResizeObserver + rAF)
+    const ro = new ResizeObserver(() => {
+      if (initTeamSlider._raf) cancelAnimationFrame(initTeamSlider._raf);
+      initTeamSlider._raf = requestAnimationFrame(() => jumpNoAnimate());
+    });
+    ro.observe(viewport);
+    ro.observe(slider);
+
+    // start
+    // podmień listę (gdy dodałeś klony) i ustaw pozycję początkową
+    cards = Array.from(slider.children);
+    jumpNoAnimate();
+  }
+  
+  // Equalize card heights to prevent jumping during scroll
+  function equalizeTeamCardHeights() {
+    const slider = document.getElementById('team-slider');
+    if (!slider) return;
+
+    // Bierzemy tylko oryginały – pomiń head/tail
+    const originals = Array.from(slider.children)
+      .filter(el => !el.dataset?.clone);
+
+    if (!originals.length) return;
+
+    // Zmierz wysokości .team-card w oryginałach
+    let maxH = 0;
+    originals.forEach(wrap => {
+      const card = wrap.querySelector('.team-card');
+      if (!card) return;
+      // Na czas pomiaru usuń inline min-height, żeby nie zaniżać/nie zawyżać
+      const prev = card.style.minHeight;
+      card.style.minHeight = '';
+      const h = card.getBoundingClientRect().height;
+      if (h > maxH) maxH = h;
+      card.style.minHeight = prev;
+    });
+
+    // Ustaw wspólne minimum przez zmienną CSS (ładnie współgra z responsywnością)
+    if (maxH > 0) {
+      slider.style.setProperty('--card-min-h', Math.ceil(maxH) + 'px');
+    }
+  }
+
+  // Debounce helper
+  function debounce(fn, t = 120) {
+    let id; return (...args) => { clearTimeout(id); id = setTimeout(() => fn(...args), t); };
+  }
+
+  // Wywołaj po załadowaniu
+  setTimeout(() => {
+    equalizeTeamCardHeights();
+    
+    // Reakcja na resize / orientację
+    window.addEventListener('resize', debounce(equalizeTeamCardHeights, 100), { passive: true });
+    
+    // Stabilizacja po załadowaniu obrazów
+    const slider = document.getElementById('team-slider');
+    const imgs = slider ? slider.querySelectorAll('img') : [];
+    imgs.forEach(img => {
+      if (!img.complete) img.addEventListener('load', debounce(equalizeTeamCardHeights, 50), { once: true });
     });
     
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
-    
-    setInterval(nextSlide, 3000);
-    
-    updateSlider();
-  }
+    // Jeśli używasz fontów webowych
+    if ('fonts' in document) {
+      document.fonts.ready.then(() => equalizeTeamCardHeights()).catch(()=>{});
+    }
+  }, 500);
 }
 
 onReady(initAboutPage)
+
+onReady(initContactPage)
 
 // Contact page specific functionality
 function initContactPage() {
@@ -1487,102 +1668,3 @@ function initContactCTA() {
 
 onReady(initContactPage)
 onReady(initContactCTA)
-
-// Silktide Cookie Banner unified configuration
-onReady(() => {
-  const cfg = {
-    background: { showBackground: true },
-    cookieIcon: { position: 'bottomLeft', colorScheme: '' },
-    cookieTypes: [
-      {
-        id: 'niezb_dne',
-        name: 'Niezbędne',
-        description: '<p>Te pliki cookie są niezbędne do prawidłowego działania strony i nie mogą być wyłączone. Obejmują m.in. ustawienia prywatności i podstawową funkcjonalność serwisu.</p>',
-        required: true,
-        onAccept: function () {}
-      },
-      {
-        id: 'analityczne',
-        name: 'Analityczne',
-        description: '<p>Te pliki cookie pomagają nam ulepszać stronę poprzez analizę ruchu i zachowań użytkowników. Dzięki nim wiemy, które treści są najczęściej odwiedzane.</p>',
-        required: false,
-        onAccept: function () {
-          if (typeof gtag === 'function') {
-            gtag('consent', 'update', { analytics_storage: 'granted' })
-          }
-          if (typeof window.dataLayer !== 'undefined' && Array.isArray(window.dataLayer)) {
-            window.dataLayer.push({ event: 'consent_accepted_analityczne' })
-          }
-        },
-        onReject: function () {
-          if (typeof gtag === 'function') {
-            gtag('consent', 'update', { analytics_storage: 'denied' })
-          }
-        }
-      },
-      {
-        id: 'marketingowe',
-        name: 'Marketingowe',
-        description: '<p>Te pliki cookie służą do personalizacji oraz dopasowania treści marketingowych. Mogą być ustawiane przez nas lub naszych partnerów.</p>',
-        required: false,
-        onAccept: function () {
-          if (typeof gtag === 'function') {
-            gtag('consent', 'update', {
-              ad_storage: 'granted',
-              ad_user_data: 'granted',
-              ad_personalization: 'granted'
-            })
-          }
-          if (typeof window.dataLayer !== 'undefined' && Array.isArray(window.dataLayer)) {
-            window.dataLayer.push({ event: 'consent_accepted_marketingowe' })
-          }
-        },
-        onReject: function () {
-          if (typeof gtag === 'function') {
-            gtag('consent', 'update', {
-              ad_storage: 'denied',
-              ad_user_data: 'denied',
-              ad_personalization: 'denied'
-            })
-          }
-        }
-      }
-    ],
-    text: {
-      banner: {
-        description: '<p>Używamy plików cookies, aby zapewnić najlepsze doświadczenia podczas przeglądania naszej strony. Więcej informacji znajdziesz w <a href="/polityka-prywatnosci">Polityce prywatności</a>.</p>',
-        acceptAllButtonText: 'Zaakceptuj wszystkie',
-        acceptAllButtonAccessibleLabel: 'Zaakceptuj wszystkie pliki cookies',
-        rejectNonEssentialButtonText: 'Odrzuć nieistotne',
-        rejectNonEssentialButtonAccessibleLabel: 'Odrzuć nieistotne pliki cookies',
-        preferencesButtonText: 'Ustawienia plików cookies',
-        preferencesButtonAccessibleLabel: 'Otwórz ustawienia plików cookies'
-      },
-      preferences: {
-        title: 'Ustawienia plików cookies',
-        description: '<p>Szanujemy Twoją prywatność. W każdej chwili możesz zmienić preferencje dotyczące plików cookies. Ustawienia będą stosowane w obrębie tej witryny.</p>',
-        creditLinkText: '',
-        creditLinkAccessibleLabel: ''
-      }
-    },
-    position: { banner: 'bottomLeft' }
-  }
-
-  function applyConfig() {
-    if (window.silktideCookieBannerManager && typeof window.silktideCookieBannerManager.updateCookieBannerConfig === 'function') {
-      window.silktideCookieBannerManager.updateCookieBannerConfig(cfg)
-    } else {
-      setTimeout(applyConfig, 50)
-    }
-  }
-  const isHome = !!document.getElementById('logo-overlay')
-  if (isHome) {
-    // Zaczekaj na koniec animacji intro na stronie głównej
-    document.addEventListener('corpotech:logoIntroFinished', () => {
-      applyConfig()
-    }, { once: true })
-  } else {
-    // Na podstronach konfiguruj od razu
-    applyConfig()
-  }
-})
