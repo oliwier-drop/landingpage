@@ -26,7 +26,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="Corpotech" />
     <link rel="manifest" href="/site.webmanifest" />
-    
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        
     <!-- Vite Assets -->
     <?php
     require_once __DIR__ . '/../../src/Helpers/ViteHelper.php';
