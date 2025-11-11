@@ -182,7 +182,7 @@
                                 </div>
                                 <div class="team-card-body bg-[#0d1b2a] p-6 text-center">
                                     <h3 class="team-card-title text-xl font-bold text-white mb-2">Oliwier Drop</h3>
-                                    <p class="team-card-role text-brand-orange-main text-sm mb-3">Młodszy specjalista IT</p>
+                                    <p class="team-card-role text-brand-orange-main text-sm mb-3">Specjalista IT</p>
                                     <p class="team-card-desc text-white text-sm mb-4">Specjalista od bezpieczeństwa sieci i infrastruktury.</p>
                                     <div class="team-card-footer flex items-center justify-center">
                                         <a href="https://www.linkedin.com/in/oliwier-drop/" target="_blank" class="inline-block">
@@ -220,7 +220,7 @@
                          <div>
                             <div class="team-card rounded-lg overflow-hidden">
                                 <div class="team-card-media h-56 bg-gray-300 flex items-center justify-center">
-                                    <img src="/assets/images/people/placeholder.png" alt="Norbert Talentowski" class="w-full h-full object-cover">
+                                    <img src="/assets/images/people/placeholder.png" alt="Krystian Chojnacki" class="w-full h-full object-cover">
                                 </div>
                                 <div class="team-card-body bg-[#0d1b2a] p-6 text-center">
                                     <h3 class="team-card-title text-xl font-bold text-white mb-2">Krystian Chojnacki</h3>
@@ -241,7 +241,7 @@
                         <div>
                             <div class="team-card rounded-lg overflow-hidden">
                                 <div class="team-card-media h-56 bg-gray-300 flex items-center justify-center">
-                                    <img src="/assets/images/people/placeholder.png" alt="Norbert Talentowski" class="w-full h-full object-cover">
+                                    <img src="/assets/images/people/placeholder.png" alt="Adam Juszczak" class="w-full h-full object-cover">
                                 </div>
                                 <div class="team-card-body bg-[#0d1b2a] p-6 text-center">
                                     <h3 class="team-card-title text-xl font-bold text-white mb-2">Adam Juszczak</h3>
@@ -262,7 +262,7 @@
                         <div>
                             <div class="team-card rounded-lg overflow-hidden">
                                 <div class="team-card-media h-56 bg-gray-300 flex items-center justify-center">
-                                    <img src="/assets/images/people/placeholder.png" alt="Norbert Talentowski" class="w-full h-full object-cover">
+                                    <img src="/assets/images/people/placeholder.png" alt="Paweł żuchowski" class="w-full h-full object-cover">
                                 </div>
                                 <div class="team-card-body bg-[#0d1b2a] p-6 text-center">
                                     <h3 class="team-card-title text-xl font-bold text-white mb-2">Paweł żuchowski</h3>
@@ -283,7 +283,7 @@
                         <div>
                             <div class="team-card rounded-lg overflow-hidden">
                                 <div class="team-card-media h-56 bg-gray-300 flex items-center justify-center">
-                                    <img src="/assets/images/people/placeholder.png" alt="Norbert Talentowski" class="w-full h-full object-cover">
+                                    <img src="/assets/images/people/placeholder.png" alt="Artur Wolicki" class="w-full h-full object-cover">
                                 </div>
                                 <div class="team-card-body bg-[#0d1b2a] p-6 text-center">
                                     <h3 class="team-card-title text-xl font-bold text-white mb-2">Artur Wolicki</h3>
