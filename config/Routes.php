@@ -19,8 +19,8 @@ class Routes
             $r->addRoute('GET', '/', function() {
                 ViewHelper::render('home', [
                     'title' => '',
-                    'description' => 'Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.',
-                    'keywords' => 'Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT, usługi informatyczne, usługi IT, usługi cyberbezpieczeństwa, usługi konsultacji, usługi serwerowni, usługi sieci, usługi rozwiązań IT',
+                    'description' => 'Corpotech to doświadczona firma IT oferująca kompleksowe rozwiązania dla biznesu – od cyberbezpieczeństwa i serwerowni, po administrację siecią, outsourcing IT i doradztwo technologiczne. Pomagamy firmom rozwijać się bezpiecznie od 2010 roku.',
+                    'keywords' => 'usługi IT, firma IT, outsourcing IT, administracja siecią, bezpieczeństwo IT, cyberbezpieczeństwo, serwerownia, rozwiązania informatyczne, konsultacje IT, wsparcie techniczne, Corpotech',
                     'robots' => 'index, follow'
                 ], 'home');
             });
@@ -29,8 +29,8 @@ class Routes
             $r->addRoute('GET', '/o-nas', function() {
                 ViewHelper::render('about', [
                     'title' => 'O nas - ',
-                    'description' => 'O nas - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.',
-                    'keywords' => 'O nas, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT',
+                    'description' => 'Poznaj firmę Corpotech – zespół specjalistów IT z wieloletnim doświadczeniem. Od 2010 roku pomagamy firmom rozwijać infrastrukturę informatyczną, wdrażać bezpieczne rozwiązania sieciowe i dbać o stabilność systemów.',
+                    'keywords' => 'o nas, Corpotech, specjaliści IT, doświadczenie IT, firma informatyczna, zespół IT, eksperci IT, bezpieczeństwo systemów, infrastruktura IT',
                     'robots' => 'index, follow'
                 ]);
             });
@@ -38,8 +38,8 @@ class Routes
             $r->addRoute('GET', '/uslugi', function() {
                 ViewHelper::render('services', [
                     'title' => 'Usługi - ',
-                    'description' => 'Usługi - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.',
-                    'keywords' => 'Usługi, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT',
+                    'description' => 'Oferujemy pełen zakres usług IT: cyberbezpieczeństwo, administracja sieciami, konfiguracja serwerów, helpdesk, outsourcing informatyczny oraz doradztwo technologiczne. Corpotech – kompleksowe wsparcie IT dla Twojej firmy.',
+                    'keywords' => 'usługi IT, cyberbezpieczeństwo, administracja sieciami, serwery, helpdesk, doradztwo IT, outsourcing informatyczny, wsparcie IT, Corpotech, obsługa firm IT',
                     'robots' => 'index, follow'
                 ]);
             });

@@ -12,8 +12,8 @@ class ContactController
         // Renderuj widok (czyszczenie danych będzie wykonane w widoku)
         ViewHelper::render('contact', [
             'title' => 'Kontakt - ',
-            'description' => 'Kontakt - Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.',
-            'keywords' => 'Kontakt, Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT'
+            'description' => 'Skontaktuj się z Corpotech – doradzimy najlepsze rozwiązania IT dla Twojej firmy. Zapewniamy szybką reakcję, wsparcie techniczne i indywidualne podejście do potrzeb każdego klienta.',
+            'keywords' => 'kontakt Corpotech, kontakt IT, pomoc techniczna, konsultacja IT, wycena usług IT, wsparcie IT, zapytanie ofertowe, firma informatyczna'
         ]);
     }
     
