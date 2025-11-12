@@ -1,47 +1,99 @@
 RewriteEngine On
 
-# 1) Ustaw indeks
+# —[ 0) Kanoniczna domena: BEZ WWW ]—
+# (HTTPS wymusza serwer / proxy)
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+# —[ 1) Ustaw indeks ]—
 DirectoryIndex index.php
+Options -Indexes
 
-# 1.5) Przekierowania 301 ze starych URL-i na nowe (SEO)
-RewriteRule ^about/?$ /o-nas [R=301,L]
-RewriteRule ^services/?$ /uslugi [R=301,L]
-RewriteRule ^contact/?$ /kontakt [R=301,L]
+# —[ 1.1) Kanoniczne URL-e ]—
+# /index.php -> /
+RewriteCond %{THE_REQUEST} \s/index\.php[\s?] [NC]
+RewriteRule ^index\.php$ / [R=301,L]
 
-# 2) Blokuj dostęp do wrażliwych rzeczy
+# Usuń końcowy slash z nieistniejących plików/katalogów (nie dotyczy prawdziwych katalogów i "/")
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} ^(.+)/$
+RewriteCond %{REQUEST_URI} !^/$
+RewriteRule ^(.+?)/$ /$1 [R=301,L]
+
+# —[ 1.5) Przekierowania SEO ze starych adresów ]—
+RewriteRule ^about/?$    /o-nas    [R=301,L]
+RewriteRule ^services/?$ /uslugi   [R=301,L]
+RewriteRule ^contact/?$  /kontakt  [R=301,L]
+
+# —[ 2) Blokady dostępu ]—
+# Krytyczne pliki konfiguracyjne
 <FilesMatch "^(\.env|composer\.(json|lock)|package(-lock)?\.json|vite\.config\.js|tailwind\.config\.js)$">
   Require all denied
 </FilesMatch>
 
-# Blokuj wejście do src/ i config/ przez WWW
+# Ukryte pliki/katalogi (.git, .svn, .DS_Store itd.) – z wyjątkiem .well-known
+RewriteRule ^\.well-known/ - [L]
+RewriteRule (^|/)\.(?!well-known/).* - [F,L]
+
+# Blokuj wejście do src/ i config/
 RewriteRule ^(src|config)/ - [F,L]
 
-# 3) Routing do front controllera (pozwól na istniejące pliki/katalogi)
+# —[ 3) Routing do front controllera ]—
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
 
-# 4) Cache statycznych zasobów (dostosuj ścieżki jeśli inne)
+# —[ 4) Cache statycznych zasobów ]—
 <IfModule mod_expires.c>
   ExpiresActive On
-  <Location "/build">
-    ExpiresDefault "access plus 1 year"
-  </Location>
-  <Location "/assets">
-    ExpiresDefault "access plus 30 days"
-  </Location>
+  ExpiresByType image/avif       "access plus 1 year"
+  ExpiresByType image/webp       "access plus 1 year"
+  ExpiresByType image/jpg        "access plus 1 year"
+  ExpiresByType image/jpeg       "access plus 1 year"
+  ExpiresByType image/png        "access plus 1 year"
+  ExpiresByType image/gif        "access plus 1 year"
+  ExpiresByType image/svg+xml    "access plus 1 year"
+  ExpiresByType font/woff2       "access plus 1 year"
+  ExpiresByType font/ttf         "access plus 1 year"
+  ExpiresByType text/css         "access plus 30 days"
+  ExpiresByType text/javascript  "access plus 30 days"
+  ExpiresByType application/javascript "access plus 30 days"
+  ExpiresByType application/json "access plus 7 days"
 </IfModule>
 
-# 5) Kompresja (jeśli dostępna)
+# Czytelne nagłówki cache (opcjonalnie)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(avif|webp|jpe?g|png|gif|svg|css|js|woff2|ttf)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(json|map)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>
+
+# —[ 5) Kompresja ]—
+<IfModule mod_brotli.c>
+  BrotliCompressionQuality 5
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/javascript application/javascript application/json image/svg+xml
+</IfModule>
+<IfModule mod_headers.c>
+  Header append Vary Accept-Encoding
 </IfModule>
 
-
-
-# 7) Nagłówki bezpieczeństwa (opcjonalnie; dopasuj do swoich potrzeb)
+# —[ 6) Nagłówki bezpieczeństwa ]—
 <IfModule mod_headers.c>
   Header set X-Content-Type-Options "nosniff"
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+  Header set Cross-Origin-Opener-Policy "same-origin"
+  Header set Cross-Origin-Resource-Policy "same-origin"
+  # Ostrożnie z CSP – dopasuj do swojego frontu (tu bardzo zachowawczo)
+  # Header set Content-Security-Policy "default-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'"
+  # HSTS tylko jeśli ZAWSZE HTTPS (także subdomeny)
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" "expr=%{HTTPS} == 'on'"
 </IfModule>

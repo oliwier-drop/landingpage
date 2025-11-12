@@ -1009,85 +1009,129 @@ function initAboutPage() {
   const slider = document.getElementById('team-slider');
   const prevBtn = document.getElementById('prev-btn');
   const nextBtn = document.getElementById('next-btn');
-  const dotsContainer = document.querySelector('.flex.space-x-2');
+  const dotsWrap = document.getElementById('team-dots');
   const navControls = document.querySelector('.flex.justify-center.items-center.mt-8');
   
   if (!slider || !prevBtn || !nextBtn) return;
   
-  // Count original cards - use direct children count
-  const originalCardsCount = slider.children.length;
   let sliderInitialized = false;
   
-  // Generate dots dynamically based on number of cards
-  if (dotsContainer) {
-    dotsContainer.innerHTML = '';
-    // Generate dots based on actual card count
-    for (let i = 0; i < originalCardsCount; i++) {
-      const dot = document.createElement('div');
-      dot.className = i === 0 ? 'w-2 h-2 bg-brand-orange-main rounded-full cursor-pointer' : 'w-2 h-2 bg-gray-600 rounded-full cursor-pointer';
-      dotsContainer.appendChild(dot);
-    }
-  }
-  
-  // Team cards fade in animation with onComplete callback
-  const originalTeamCards = Array.from(slider.children);
-  if (originalTeamCards.length) {
-    const cardsToAnimate = originalTeamCards;
+  // Initialize slider IMMEDIATELY - don't wait for animation
+  // This ensures cards are cloned right away for infinite loop
+  function initializeSlider() {
+    if (sliderInitialized) return;
+    sliderInitialized = true;
+    
+    // Save original cards reference BEFORE any modifications
+    const originalCards = Array.from(slider.children);
+    if (!originalCards.length) return;
     
     // Set initial state for navigation controls
     if (navControls) {
       gsap.set(navControls, { opacity: 0, y: 30 });
     }
     
-    // Timeline for team cards animation
-    const teamCardsTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: "#team-slider",
-        start: "top 70%",
-        toggleActions: "play none none none"
-      },
-      onComplete: function() {
-        initializeSlider();
-      }
-    });
+    // Initialize slider functionality (this will clone cards)
+    initTeamSlider();
     
-    teamCardsTimeline.fromTo(cardsToAnimate, 
-      { opacity: 0, y: 50 },
-      {
+    // After slider is initialized, animate the cards
+    // Wait a bit for DOM to settle after cloning
+    requestAnimationFrame(() => {
+      // Get all cards including clones
+      const allCards = Array.from(slider.children);
+      
+      // Separate original cards and clones
+      const originalCards = allCards.filter(card => !card.dataset.clone);
+      const cloneCards = allCards.filter(card => card.dataset.clone);
+      
+      // Set clones to visible immediately (they should match their originals)
+      gsap.set(cloneCards, { opacity: 1, y: 0 });
+      
+      // Set initial state for original cards only
+      gsap.set(originalCards, { opacity: 0, y: 50 });
+      
+      // Timeline for team cards animation (only original cards)
+      const teamCardsTimeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: "#team-slider",
+          start: "top 70%",
+          toggleActions: "play none none none"
+        }
+      });
+      
+      // Animate original cards with stagger
+      teamCardsTimeline.to(originalCards, {
         opacity: 1,
         y: 0,
         duration: 0.4,
         ease: "power2.out",
         stagger: 0.05
+      });
+      
+      // Add navigation controls animation
+      if (navControls) {
+        teamCardsTimeline.to(navControls, {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out"
+        }, "-=0.3");
       }
-    );
-    
-    // Add navigation controls animation to the same timeline
-    if (navControls) {
-      teamCardsTimeline.to(navControls, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power2.out"
-      }, "-=0.3"); // Start slightly before cards finish (overlap)
-    }
-    
-    // Initialize slider after a short delay as fallback
-    setTimeout(() => {
-      if (!sliderInitialized) {
-        initializeSlider();
-      }
-    }, 300);
+    });
   }
   
-  // Initialize slider (clone cards and setup functionality)
-  function initializeSlider() {
-    if (sliderInitialized) return;
+  // Initialize slider with proper timing
+  // Use requestAnimationFrame to ensure DOM is ready
+  let initAttempts = 0;
+  const MAX_INIT_ATTEMPTS = 20; // Max 20 attempts (1 second total)
+  
+  const tryInitialize = () => {
+    initAttempts++;
     
-    // Nie klonujemy tutaj - initTeamSlider() tworzy tylko 2 klony (head i tail)
-    sliderInitialized = true;
-    initTeamSlider();
+    // Check if slider has cards
+    if (slider.children.length === 0) {
+      if (initAttempts < MAX_INIT_ATTEMPTS) {
+        // Wait a bit and try again
+        setTimeout(tryInitialize, 50);
+      }
+      return;
+    }
+    
+    // Check if already initialized
+    if (sliderInitialized) {
+      return;
+    }
+    
+    // Initialize
+    initializeSlider();
+  };
+  
+  // Try initialization with multiple strategies
+  if (document.readyState === 'complete') {
+    // Page already loaded
+    requestAnimationFrame(() => {
+      setTimeout(tryInitialize, 50);
+    });
+  } else if (document.readyState === 'interactive') {
+    // DOM is ready but resources may still be loading
+    requestAnimationFrame(() => {
+      setTimeout(tryInitialize, 100);
+    });
+  } else {
+    // Wait for DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+      requestAnimationFrame(() => {
+        setTimeout(tryInitialize, 100);
+      });
+    }, { once: true });
   }
+  
+  // Fallback: also try after window load (when all resources are loaded)
+  window.addEventListener('load', () => {
+    if (!sliderInitialized && slider.children.length > 0) {
+      setTimeout(initializeSlider, 50);
+    }
+  }, { once: true });
   
   // Team Slider - Full featured with autoplay, swipe, and accessibility
   function initTeamSlider() {
@@ -1096,24 +1140,31 @@ function initAboutPage() {
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     const dotsWrap = document.getElementById('team-dots');
-    if (!slider || !viewport) return;
+    
+    if (!slider || !viewport) {
+      return;
+    }
 
     // GUARD: inicjuj tylko raz
     if (slider.dataset.initialized === 'true') {
       return;
     }
-    slider.dataset.initialized = 'true';
-
-    // --- konfiguracja ---
-    const AUTOPLAY_MS = 3000; // czas między krokami
-    const STEP_BY_VIEW = false; // true = przesuwa o cały "widok" (1/2/3 karty), false = o 1 kartę
 
     // --- stan ---
     // Pobierz tylko oryginalne karty (bez klonów jeśli jakieś już są)
     const originals = Array.from(slider.children).filter(el => !el.dataset.clone);
     const originalCount = originals.length;
     
-    if (!originalCount) return;
+    if (!originalCount) {
+      return;
+    }
+    
+    // Mark as initialized BEFORE cloning (prevents double initialization)
+    slider.dataset.initialized = 'true';
+
+    // --- konfiguracja ---
+    const AUTOPLAY_MS = 3000; // czas między krokami
+    const STEP_BY_VIEW = false; // true = przesuwa o cały "widok" (1/2/3 karty), false = o 1 kartę
 
     // Funkcja określająca ile kart jest widocznych jednocześnie
     const getPerView = () => {
@@ -1125,24 +1176,28 @@ function initAboutPage() {
 
     // Klonuj wystarczającą liczbę kart dla infinite loop
     // Potrzebujemy co najmniej tyle klonów ile widocznych kart
-    const cloneCount = Math.max(3, getPerView()); // minimum 3 klony dla bezpieczeństwa
+    const perView = getPerView();
+    const cloneCount = Math.max(3, perView); // minimum 3 klony dla bezpieczeństwa
     
     // Dodaj klony na początku (ostatnie X kart)
     for (let i = 0; i < cloneCount; i++) {
       const sourceIndex = originalCount - cloneCount + i;
-      const clone = originals[sourceIndex].cloneNode(true);
-      clone.dataset.clone = 'head';
-      slider.insertBefore(clone, slider.firstChild);
+      if (sourceIndex >= 0 && sourceIndex < originalCount) {
+        const clone = originals[sourceIndex].cloneNode(true);
+        clone.dataset.clone = 'head';
+        slider.insertBefore(clone, slider.firstChild);
+      }
     }
     
     // Dodaj klony na końcu (pierwsze X kart)
-    for (let i = 0; i < cloneCount; i++) {
+    for (let i = 0; i < cloneCount && i < originalCount; i++) {
       const clone = originals[i].cloneNode(true);
       clone.dataset.clone = 'tail';
       slider.appendChild(clone);
     }
 
     let cards = Array.from(slider.children);               // [clones(head)..., ...originals, ...clones(tail)]
+    
     let index = cloneCount;                                // start: cloneCount = pierwszy oryginał
     let anim = null;
     let isAnimating = false;

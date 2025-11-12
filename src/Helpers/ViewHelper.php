@@ -108,4 +108,32 @@ class ViewHelper
     {
         unset($_SESSION['form_errors'], $_SESSION['old_input']);
     }
+    
+    /**
+     * Generuje canonical URL dla aktualnej strony
+     * Usuwa query string i normalizuje URL
+     */
+    public static function canonicalUrl()
+    {
+        $baseUrl = App::getBaseUrl();
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+        
+        // Usuń query string
+        if (false !== $pos = strpos($requestUri, '?')) {
+            $requestUri = substr($requestUri, 0, $pos);
+        }
+        
+        // Dekoduj URI
+        $requestUri = rawurldecode($requestUri);
+        
+        // Normalizuj: usuń końcowy slash (oprócz głównej strony)
+        if ($requestUri !== '/' && substr($requestUri, -1) === '/') {
+            $requestUri = rtrim($requestUri, '/');
+        }
+        
+        // Zawsze używaj HTTPS dla canonical (SEO best practice)
+        $canonicalUrl = str_replace('http://', 'https://', $baseUrl) . $requestUri;
+        
+        return $canonicalUrl;
+    }
 }

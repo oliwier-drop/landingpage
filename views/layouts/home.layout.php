@@ -13,6 +13,8 @@
     <meta name="google" content="notranslate">
     <meta name="google-site-verification" content="google-site-verification=google-site-verification">
     <meta name="google-site-verification" content="google-site-verification">
+
+    <link rel="canonical" href="<?= \Corpotech\Landingpage\Helpers\ViewHelper::canonicalUrl() ?>">
     
     <?php require_once __DIR__ . '/../partials/gtm-head.php'; ?>
     
