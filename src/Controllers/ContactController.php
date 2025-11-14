@@ -13,7 +13,9 @@ class ContactController
         ViewHelper::render('contact', [
             'title' => 'Kontakt - ',
             'description' => 'Skontaktuj się z Corpotech – doradzimy najlepsze rozwiązania IT dla Twojej firmy. Zapewniamy szybką reakcję, wsparcie techniczne i indywidualne podejście do potrzeb każdego klienta.',
-            'keywords' => 'kontakt Corpotech, kontakt IT, pomoc techniczna, konsultacja IT, wycena usług IT, wsparcie IT, zapytanie ofertowe, firma informatyczna'
+            'keywords' => 'kontakt Corpotech, kontakt IT, pomoc techniczna, konsultacja IT, wycena usług IT, wsparcie IT, zapytanie ofertowe, firma informatyczna',
+            'robots' => 'index, follow',
+            'googlebot' => 'index, follow'
         ]);
     }
     

@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?> Corpotech | Rozwiązania IT, dla twojego biznesu</title>
 
-    <meta name="description" content="Corpotech to firma zajmująca się IT, dla twojego biznesu. Jesteśmy specjalistami w dziedzinie cyberbezpieczeństwa, konsultacji, serwerowni, sieci i rozwiązań IT. Działamy na rynku od 2010 roku.">
-    <meta name="keywords" content="Corpotech, IT, cyberbezpieczeństwo, konsultacja, serwerownia, sieć, rozwiązania IT">
+    <meta name="description" content="<?= $description ?>">
+    <meta name="keywords" content="<?= $keywords ?>">
     <meta name="author" content="Corpotech">
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
+    <meta name="robots" content="<?= isset($robots) ? htmlspecialchars($robots, ENT_QUOTES, 'UTF-8') : 'index, follow' ?>">
+    <meta name="googlebot" content="<?= isset($googlebot) ? htmlspecialchars($googlebot, ENT_QUOTES, 'UTF-8') : (isset($robots) ? htmlspecialchars($robots, ENT_QUOTES, 'UTF-8') : 'index, follow') ?>">
     <meta name="google" content="notranslate">
     <meta name="google-site-verification" content="google-site-verification=google-site-verification">
     <meta name="google-site-verification" content="google-site-verification">

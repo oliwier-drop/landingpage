@@ -15,6 +15,7 @@ class ErrorController
             'description' => 'Strona nie została znaleziona',
             'keywords' => 'błąd 404',
             'robots' => 'noindex, nofollow',
+            'googlebot' => 'noindex, nofollow',
             'error_code' => 404,
             'error_message' => 'Strona nie została znaleziona'
         ]);
@@ -29,6 +30,7 @@ class ErrorController
             'description' => 'Metoda nie jest dozwolona',
             'keywords' => 'błąd 405',
             'robots' => 'noindex, nofollow',
+            'googlebot' => 'noindex, nofollow',
             'error_code' => 405,
             'error_message' => 'Metoda nie jest dozwolona'
         ]);

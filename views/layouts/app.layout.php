@@ -9,7 +9,7 @@
     <meta name="keywords" content="<?= $keywords ?>">
     <meta name="author" content="Corpotech">
     <meta name="robots" content="<?= isset($robots) ? htmlspecialchars($robots, ENT_QUOTES, 'UTF-8') : 'index, follow' ?>">
-    <meta name="googlebot" content="index, follow">
+    <meta name="googlebot" content="<?= isset($googlebot) ? htmlspecialchars($googlebot, ENT_QUOTES, 'UTF-8') : (isset($robots) ? htmlspecialchars($robots, ENT_QUOTES, 'UTF-8') : 'index, follow') ?>">
     <meta name="google" content="notranslate">
     <meta name="google-site-verification" content="google-site-verification=google-site-verification">
     <meta name="google-site-verification" content="google-site-verification">
